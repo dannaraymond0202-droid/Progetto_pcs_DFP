@@ -5,9 +5,11 @@
 #include <array>
 #include <set>
 #include <vector>
-
+#include "cicli_dfs.hpp"
+#include "de_pina.hpp"
 
 using namespace std;
+
 //standard per il verso di percorrenza delle correnti: senso ORARIO
 
 int main(){
@@ -59,5 +61,5 @@ do{
 
 
 vector<vector<unidirected_edge<int>>> cycles;
-if(choice == "1") cycles=
-else ...
+if(choice == "1") cycles = fundamental_cycles(G);
+else cycles = De_Pina(G);
