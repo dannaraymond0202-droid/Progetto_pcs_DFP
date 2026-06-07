@@ -4,6 +4,7 @@
 #include <map>
 #include <array>
 #include <set>
+#include <vector>
 
 
 using namespace std;
@@ -56,5 +57,7 @@ do{
   cin >> choice;
 }while(choice != "1" && choice != "2");
 
-if(choice == "1")...
+
+vector<vector<unidirected_edge<int>>> cycles;
+if(choice == "1") cycles=
 else ...
