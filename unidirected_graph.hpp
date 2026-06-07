@@ -9,7 +9,7 @@ template <typename T>
 class unidirected_graph {
 private:
     std::map<T, std::set<T>> adj;  //crea una mappa (un dizionario) la cui chiave è un nodo e il valore un insieme (quello dei suoi vicini)
-    std::list<unidirected_edge<T>> edges; //lista di tutti gli archi in ordine di inserimento
+    std::set<unidirected_edge<T>> edges; //lista di tutti gli archi in ordine di inserimento
 
 public:
 
@@ -31,12 +31,7 @@ public:
     void add_edge(T a, T b) { //aggiunge un arco al grafo, i nodi vengono aggiunti implicitamente
         unidirected_edge<T> e(a,b);
 
-        //controllo duplicati con iteratori perché una lista non è accessibile tramite indici
-        for (auto it=edges.begin(); it!= edges.end(); ++it) { //auto deduce automaticamente il tipo della variabile dal valore assegnato
-            if(*it==e) return; //se il valore dell'elemento puntato dall'iteratore è uguale ad e, l'arco già esiste
-        }
-
-        edges.push_back(e); //se non l'ho trovato lo aggiungo alla fine della lista
+        edges.insert(e); //se non l'ho trovato lo aggiungo alla fine della lista
 
         //aggiorno la lista di adiacenza
         adj[e.from()].insert(e.to()); //aggiungo "b" alla lista di vicini di "a"
@@ -44,7 +39,7 @@ public:
     }
 
 
-    std::list<unidirected_edge<T>> all_edges() const { //restituisce la lista di tutti gli archi
+    std::set<unidirected_edge<T>> all_edges() const { //restituisce la lista di tutti gli archi
         return edges; //fa una copia della lista di archi
     }
 
