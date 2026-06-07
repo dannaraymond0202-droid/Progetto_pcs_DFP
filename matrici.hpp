@@ -16,31 +16,12 @@ int matrici(){
     int i = 0;
     for(auto& vet: maglie){ //vet è un vettore di archi
         for(auto& [key, obj]: Vol){
-            T nodo_pos = obj[1];
-            T nodo_neg = obj[2];
-            for(auto& e : vet){ //ciclo su ogni arco del vettore della singola maglia
-                if(e == unidirected_edge<T>(nodo_pos, nodo_neg)){ //significa che stiamo attraversando la maglia dal morsetto positivo
-                    v(i) = v(i) - obj[0];
-                }
-                if(e == unidirected_edge<T>(nodo_neg, nodo_pos)){ //significa che stiamo attraversando la maglia dal morsetto negativo
-                    v(i) = v(i) + obj[0];
-                }
-            }
-        }
-        i += 1;
-    }
-
-    int n = maglie.size(); //numero di cicli trovati
-    Eigen::VectorXd v = Eigen::VectorXd::Zero(n); //creazione del vettore dei termini noti
-    int i = 0;
-    for(auto& vet: maglie){ //vet è un vettore di archi
-        for(auto& [key, obj]: Vol){
             unidirected_edge<T> a(obj[1], obj[2]);
             for(auto& e : vet){ //ciclo su ogni arco del vettore della singola maglia
-                if(e == a && !is_inv(a)){ //significa che stiamo attraversando la maglia dal morsetto positivo
+                if(e == a && is_inv(e) == is_inv(a)){ //significa che stiamo attraversando la maglia dal morsetto positivo
                     v(i) = v(i) - obj[0];
                 }
-                if(e == a && is_inv(a)){ //significa che stiamo attraversando la maglia dal morsetto negativo
+                if(e == a && !(is_inv(e) == is_inv(a))){ //significa che stiamo attraversando la maglia dal morsetto negativo
                     v(i) = v(i) + obj[0];
                 }
             }
@@ -52,15 +33,8 @@ int matrici(){
     Eigen::MatrixXd B = Eigen::MatrixXd::Zero(m, n); //matrice di incidenza
     for(auto& vet: maglie){ //vet è un vettore di archi
         for(auto& [key, obj]: Res){
-            if(){}
-            for(auto& e : vet){ //ciclo su ogni arco del vettore della singola maglia
-                if(e == unidirected_edge<T>(nodo_pos, nodo_neg)){ //significa che stiamo attraversando la maglia dal morsetto positivo
-                    v(i) = v(i) - obj[0];
-                }
-                if(e == unidirected_edge<T>(nodo_neg, nodo_pos)){ //significa che stiamo attraversando la maglia dal morsetto negativo
-                    v(i) = v(i) + obj[0];
-                }
-            }
+           
+            
         }
     }
 
