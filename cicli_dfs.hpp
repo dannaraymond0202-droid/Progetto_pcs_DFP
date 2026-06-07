@@ -56,8 +56,9 @@ std::vector<unidirected_edge<T>> find_path(const unidirected_graph<T>& albero, c
 }
 
 template<typename T>
-std::vector<std::vector<unidirected_edge<T>>> fundamental_cycles(const unidirected_graph<T>& G, const T& sorgente){
+std::vector<std::vector<unidirected_edge<T>>> fundamental_cycles(const unidirected_graph<T>& G){
     lifo<T> pila;
+    T sorgente = *(G.all_nodes().begin());
     unidirected_graph<T> albero = graph_visit(G, sorgente, pila); //albero DFS
     unidirected_graph<T> coalbero = G-albero;
 
