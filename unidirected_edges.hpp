@@ -48,8 +48,8 @@ bool operator==(const unidirected_edge& other) const { //operatore per definire 
     }
 }
 
-friend std::ostream& operator<<(std::ostream& os, const unidirected_edge& e) { //friend per accedere a membri privati //operatore per stampare un arco
-    os << "(" << e.u << "," << e.v << ")"; 
+std::ostream& operator<<(std::ostream& os, const unidirected_edge& e) {
+    os << "(" << e.from() << "," << e.to() << ")"; 
     return os;
 }
 
