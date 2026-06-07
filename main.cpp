@@ -5,6 +5,7 @@
 #include <array>
 #include <set>
 #include <vector>
+#include <Eigen/Dense>
 #include "cicli_dfs.hpp"
 #include "de_pina.hpp"
 #include "maps_to_graph.hpp"
@@ -69,3 +70,10 @@ do{
 vector<vector<unidirected_edge<int>>> maglie;
 if(choice == "1") maglie = fundamental_cycles(G);
 else maglie = De_Pina(G);
+Eigen::MatrixXd B = ....;
+Eigen::MatrixXd R = ....;
+Eigen::VectorXd v = ....;
+Eigen::VectorXd i0 = Eigen::Vector::Zero(//numero dei cicli);
+const double tol =  1.0e-15;
+Eigen::VectorXd Vr = Calcolo(B,R,v,i0,tol);
+
