@@ -60,6 +60,6 @@ do{
 }while(choice != "1" && choice != "2");
 
 
-vector<vector<unidirected_edge<int>>> cycles;
-if(choice == "1") cycles = fundamental_cycles(G);
-else cycles = De_Pina(G);
+vector<vector<unidirected_edge<int>>> maglie;
+if(choice == "1") maglie = fundamental_cycles(G);
+else maglie = De_Pina(G);
