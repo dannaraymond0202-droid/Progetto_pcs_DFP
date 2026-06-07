@@ -190,8 +190,9 @@ std::vector<int> trova_ciclo_minimo(const unidirected_graph<T>& G, const std::ve
 
 //algoritmo di De Pina
 template<typename T>
-std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>& G, const T& sorgente, const std::map<unidirected_edge<T>, double>& pesi){
+std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>& G, const std::map<unidirected_edge<T>, double>& pesi){
     lifo<T> pila;
+    T sorgente = *(G.all_nodes().begin());
     unidirected_graph<T> albero = graph_visit(G, sorgente, pila);
     unidirected_graph<T> coalbero = G - albero;
 
