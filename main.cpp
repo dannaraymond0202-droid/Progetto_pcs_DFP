@@ -41,7 +41,7 @@ int main(){
           ifs >> valori[1];
           ifs >> valori[2];
           Res[r] = valori;
-          r ++;
+          r++;
         }
         else if(poi.contains('V')){
           cout<<"Ho letto correttamnete V"; 
@@ -81,5 +81,9 @@ int main(){
     const double tol =  1.0e-15;
     Eigen::VectorXd Vr = Calcolo(B,R,v,i0,tol);
 
+    for(auto& [n, info] : Res){
+        cout << "R" << n << ": V = " << Vr[n] << " volts, I = " << i0[n] << " amps.\n";
+    }
+    
     return 0;
 }
