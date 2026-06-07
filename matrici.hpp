@@ -3,7 +3,7 @@
 
 
 template<typename T>
-int matrici(){
+void matrici(){
     int m = Res.size(); //numero di resistenze
     Eigen::MatrixXd R = Eigen::MatrixXd::Zero(m, m); //creazione della matrice diagonale R che ha per elementi sulla diagonale le resistenze
     for(auto& [key, obj]: Res){
@@ -45,7 +45,4 @@ int matrici(){
         }
         j += 1;
     }
-
-
-    return 0;
 }
