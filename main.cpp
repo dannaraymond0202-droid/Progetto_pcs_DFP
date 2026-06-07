@@ -69,9 +69,14 @@ int main(){
     vector<vector<unidirected_edge<int>>> maglie;
     if(choice == "1") maglie = fundamental_cycles(G);
     else maglie = De_Pina(G);
-    Eigen::MatrixXd B = ....;
-    Eigen::MatrixXd R = ....;
-    Eigen::VectorXd v = ....;
+
+    int m = Res.size(); //numero di resistenze
+    int n = maglie.size(); //numero di cicli trovati
+    Eigen::MatrixXd R = Eigen::MatrixXd::Zero(m, m); //creazione della matrice diagonale R che ha per elementi sulla diagonale le resistenze
+    Eigen::VectorXd v = Eigen::VectorXd::Zero(n); //creazione del vettore dei termini noti
+    Eigen::MatrixXd B = Eigen::MatrixXd::Zero(m, n); //matrice di incidenza (resistori maglie)
+    matrici(R, v, B, maglie, Res, Vol);
+    
     Eigen::VectorXd i0 = Eigen::Vector::Zero(//numero dei cicli);
     const double tol =  1.0e-15;
     Eigen::VectorXd Vr = Calcolo(B,R,v,i0,tol);
