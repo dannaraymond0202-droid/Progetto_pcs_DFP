@@ -20,7 +20,7 @@ void matrici(){
                 if(e == a && is_inv(e) == is_inv(a)){ //significa che stiamo attraversando la maglia dal morsetto positivo
                     v(i) = v(i) - obj[0];
                 }
-                if(e == a && !(is_inv(e) == is_inv(a))){ //significa che stiamo attraversando la maglia dal morsetto negativo
+                if(e == a && is_inv(e) != is_inv(a)){ //significa che stiamo attraversando la maglia dal morsetto negativo
                     v(i) = v(i) + obj[0];
                 }
             }
@@ -29,7 +29,7 @@ void matrici(){
     }
     
     
-    Eigen::MatrixXd B = Eigen::MatrixXd::Zero(m, n); //matrice di incidenza (resistori meglie)
+    Eigen::MatrixXd B = Eigen::MatrixXd::Zero(m, n); //matrice di incidenza (resistori maglie)
     int j = 0;
     for(auto& vet: maglie){ //vet è un vettore di archi
         for(auto& [key, obj]: Res){
