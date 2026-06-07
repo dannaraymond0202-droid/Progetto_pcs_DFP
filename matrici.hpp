@@ -37,13 +37,13 @@ int matrici(){
             unidirected_edge<T> a(obj[1], obj[2]);
             for(auto& e : vet){ //ciclo su ogni arco del vettore della singola maglia
                 if(e == a && !(is_inv(e))){ //significa che stiamo attraversando la maglia nello stesso vero del resistore
-                    B(vet, key-1) = 1;
+                    B(i, key-1) = 1;
                 }
                 if(e == a && is_inv(e)){ //significa che stiamo attraversando la maglia nel senso opposto rispetto al resistore
-                    B(vet, key-1) = -1;
+                    B(i, key-1) = -1;
                 }
                 else{
-                    B(vet, key-1) = 0; //significa che il resistore non appartiene alla maglia
+                    B(i, key-1) = 0; //significa che il resistore non appartiene alla maglia
                 }
             }
         }
