@@ -81,3 +81,5 @@ int main(){
     const double tol =  1.0e-15;
     Eigen::VectorXd Vr = Calcolo(B,R,v,i0,tol);
 
+    return 0;
+}
