@@ -75,7 +75,7 @@ public:
 
 //trova il ciclo minimo C (vettore di incidenza del ciclo) con <C, S> = 1 usando Dijkstra
 template<typename T>
-std::vector<int> trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S, const std::map<unidirected_edge<T>, double>& pesi_originali){
+void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S, const std::map<unidirected_edge<T>, double>& pesi_originali, std::vector<int>& C_out, std::vector<unidirected_edge<T>>& ciclo_archi_out){
 
     std::list<unidirected_edge<T>> archi_tot = G.all_edges(); //lista di tutti gli archi (all_edges restituisce una lista, scelto perché mantiene l'ordine di inserimento)
     int m = 0;
@@ -126,6 +126,7 @@ std::vector<int> trova_ciclo_minimo(const unidirected_graph<T>& G, const std::ve
     //best_C è il ciclo minimo
     int best_len = -1;
     std::vector<int> best_C(m, 0);  //m= numero di elementi del vettore (corrisponde al numero totale di archi nel grafo originale), inizialmente tutti inizializzati a 0
+    std::vector<unidirected_edge<T>> best_archi;
 
     for(auto it= nodi_originali.begin(); it!= nodi_originali.end(); ++it){ //cerco il miglior cammino tra v- e v+
         T v = *it;
@@ -144,7 +145,7 @@ std::vector<int> trova_ciclo_minimo(const unidirected_graph<T>& G, const std::ve
             continue; //se len non è migliore salta il resto, non è il ciclo minimo
         }
 
-        std::vector<LiftedNode<T>> cammino;  //un vettore è ordinato per ordine di inserimento
+        std::vector<LiftedNode<T>> cammino;  //un vettore è ordinato per ordine di inserimento, sarà [dest, ..., sorg]
         LiftedNode<T> corrente = destinazione;
         while(!(corrente.getVertice() == sorgente.getVertice() && corrente.getSegno() == sorgente.getSegno())){//il while si ferma quando il nodo corrente è lo stesso nodo della sorgente e ha lo stesso segno della sorgente (quindi quando raggiunge esattamente la dorgente)
             cammino.push_back(corrente); //aggiungo al cammino il nodo corrente
@@ -153,20 +154,13 @@ std::vector<int> trova_ciclo_minimo(const unidirected_graph<T>& G, const std::ve
 
         cammino.push_back(sorgente); //aggiungo la sorgente
 
-        //inverto l'ordine
-        std::vector<LiftedNode<T>> reversed;
-        if(!cammino.empty()){
-            for(int i = cammino.size()-1; i >= 0; --i){
-                reversed.push_back(cammino[i]);
-            }
-            cammino = reversed;
-        }
 
-        //costruisco il vettore di incidenza C
+        //costruisco il vettore di incidenza C e vettore archi orientati
         std::vector<int> C(m, 0); //m= numero di elementi del vettore (corrisponde al numero totale di archi nel grafo originale), inizialmente tutti inizializzati a 0
-        for(int k = 0; k< cammino.size()-1; ++k){
+        std::vector<unidirected_edge<T>> archi ciclo;
+        for(int k = cammino.size()-1; k > 0; --k){
             T u_orig = cammino[k].getVertice();
-            T v_orig = cammino[k+1].getVertice();
+            T v_orig = cammino[k-1].getVertice();
             if(u_orig == v_orig){
                 continue; //se i nodi sono uguali non si ha realmente attraversato un arco, è causa dal lifting
             }
@@ -175,16 +169,18 @@ std::vector<int> trova_ciclo_minimo(const unidirected_graph<T>& G, const std::ve
             if(indice >= 0){
                 C[indice] = (C[indice]+1) % 2; //0 diventa 1 e 1 diventa 0, così vengono inseriti solo gli archi percorsi un numero dispari di volte
             }
+            archi_ciclo.push_back(e_orig); //ordine: sorgente, ..., destinazione
         }
         
         if(ps_mod2(C, S) == 1){  //controlla che il prodotto scalare tra C ed S sia 1
             best_len = len;
-            best_C = C;
+            best_C.swap(C); // best_C = C ma evita copie
+            best_archi.swap(archi_ciclo);
         }
     }
     
-    return best_C;
-
+    C_out.swap(best_C); //ciclo migliore
+    ciclo_archi_out.swap(best_archi);
 }
 
 
@@ -192,7 +188,7 @@ std::vector<int> trova_ciclo_minimo(const unidirected_graph<T>& G, const std::ve
 template<typename T>
 std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>& G){
     lifo<T> pila;
-    std::map<unidirected_edge<T>, double> pesi;
+    std::map<unidirected_edge<T>, double> pesi; //vuoto (pesi=1 per default)
     T sorgente = *(G.all_nodes().begin());
     unidirected_graph<T> albero = graph_visit(G, sorgente, pila);
     unidirected_graph<T> coalbero = G - albero;
@@ -219,11 +215,15 @@ std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>
     }
 
     //costruisco la base di cicli
-    std::vector<std::vector<int>> vettori_cicli; //vettore di vettori di incidenza dei cicli della base
+    std::vector<std::vector<unidirected_edge<T>>> risultato; //vettore di vettori di archi (tutti i cicli orientati
 
     for(int i = 0; i < k; ++i){
-        std::vector<int> Ci = trova_ciclo_minimo(G, S_tot[i], pesi); //trova vettore di incidenza del ciclo minimo t.c. <Ci, Si> = 1
-        vettori_cicli.push_back(Ci);
+        std::vector<int> Ci = trova_ciclo_minimo;
+        std::vector<unidirected_edge<T>> ciclo_orientato;
+        trova_ciclo_minimo(G, S_tot[i], pesi, Ci, ciclo_orientato); modifico tramite riferimento Ci e ciclo_orientato
+
+        risultato.emplace_back(); //aggiungo un vettore vuoto al fondo del vettore di vettori
+        risultato.back().swap.(ciclo_orientato); //scambia l'ultimo elemento(vuoto) con il ciclo orientato
 
         //agiorno Sj per j>i (affinché per ogni j>i <Ci, Sj> = 0)
         for(int j = i + 1; j< k; ++j){ //stiamo già iterando su i nel ciclo appena più esterno
@@ -234,21 +234,6 @@ std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>
 
     }
 
-    //converto i vettori di incidenza in liste di archi
-    std::vector<std::vector<unidirected_edge<T>>> risultato;
-    for(int i = 0; i < vettori_cicli.size(); ++i){
-        std::vector<unidirected_edge<T>> ciclo;
-        int indice = 0;
-        for(auto it=archi_tot.begin(); it!= archi_tot.end(); ++it){  //indice e it sono diversi ma viaggiano in parallelo
-            if(vettori_cicli[i][indice] == 1){ //se l'arco numero it è presente nell'i-esimo ciclo allora lo aggiungo
-                ciclo.push_back(*it);
-            }
-            ++indice;
-        }
-
-        risultato.push_back(ciclo);
-    }
-
-    return risultato;
+    return risultato; //non restituiamo più un vettore di vettori di incidenza ma un vettore di vettori di archi orientati (serve per le maglie)
 
 }
