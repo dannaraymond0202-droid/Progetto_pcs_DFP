@@ -12,7 +12,7 @@ class undirected_graph
 {
     set<undirected_edge<I>> edges;
     map<I, set<I>> lista_adi;
-    map<undirected_edge<I>, int> edge_index;
+    unordered_map<undirected_edge<I>, int> edge_index;
 
 public:
     /* Costruttore di default */
@@ -29,7 +29,11 @@ public:
         edges.insert(nuovo);
         lista_adi[nuovo.from()].insert(nuovo.to());
         lista_adi[nuovo.to()].insert(nuovo.from());
-        edge_index[nuovo]=edge_index.size();
+        int i=1;
+        for(auto& e : edges){
+            edge_index.at(e) = i;
+            i++;
+        }
     }
 
     set<undirected_edge<I>> all_edges() const { return edges; }
