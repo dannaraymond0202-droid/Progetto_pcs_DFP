@@ -7,6 +7,11 @@
 #include <vector>
 #include "cicli_dfs.hpp"
 #include "de_pina.hpp"
+#include "maps_to_graph.hpp"
+#include "matrici.hpp"
+#include "unidirected_graph.hpp"
+#include "unidirected_edges.hpp"
+
 
 using namespace std;
 
