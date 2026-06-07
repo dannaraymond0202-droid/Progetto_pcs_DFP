@@ -19,60 +19,60 @@ using namespace std;
 
 
 int main(){
-//Lettura File
-map<int, array<double, 3>> Res, Vol;
-string filename = "circuito.txt";
-int r = 1;
-int v = 1;
-ifstream ifs(filename);
-if (ifs.is_open()){//comando dii check dell'apertura per evitare errori 
-  while(!ifs.eof()){//fino a quando non arriva alla fine fa ....
-    string pip;
-    array<double,3> valori;
-    ifs >> pip;
-    set<char> poi;
-    for(int i = 0; i<pip.size(); i++){
-      poi.insert(pip[i]);
+    //Lettura File
+    map<int, array<double, 3>> Res, Vol;
+    string filename = "circuito.txt";
+    int r = 1;
+    int v = 1;
+    ifstream ifs(filename);
+    if (ifs.is_open()){//comando dii check dell'apertura per evitare errori 
+      while(!ifs.eof()){//fino a quando non arriva alla fine fa ....
+        string pip;
+        array<double,3> valori;
+        ifs >> pip;
+        set<char> poi;
+        for(int i = 0; i<pip.size(); i++){
+          poi.insert(pip[i]);
+        }
+        if(poi.contains('R')){ //creazione delle due mappa Res e Vol
+          cout<<"Ho letto correttamente R";
+          poi.clear();
+          ifs >> valori[0];
+          ifs >> valori[1];
+          ifs >> valori[2];
+          Res[r] = valori;
+          r ++;
+        }
+        else if(poi.contains('V')){
+          cout<<"Ho letto correttamnete V"; 
+          poi.clear();
+          ifs >> valori[0];
+          ifs >> valori[1]; 
+          ifs >> valori[2];
+          Vol[v] = valori;
+          v++;
+        }
+      }
     }
-    if(poi.contains('R')){ //creazione delle due mappa Res e Vol
-      cout<<"Ho letto correttamente R";
-      poi.clear();
-      ifs >> valori[0];
-      ifs >> valori[1];
-      ifs >> valori[2];
-      Res[r] = valori;
-      r ++;
-    }
-    else if(poi.contains('V')){
-      cout<<"Ho letto correttamnete V"; 
-      poi.clear();
-      ifs >> valori[0];
-      ifs >> valori[1]; 
-      ifs >> valori[2];
-      Vol[v] = valori;
-      v++;
-    }
-  }
-}
-
-
-
-auto G = circuit_graph_generator(Res, Vol);
-
-char choice;
-do{
-  cout << "digitare 1 se si desidera trovare i cicli fondamentali (maglie) attraverso il metodo basato sull'algoritmo DFS oppure 2 per il metodo di De Pina:\n";
-  cin >> choice;
-}while(choice != "1" && choice != "2");
-
-
-vector<vector<unidirected_edge<int>>> maglie;
-if(choice == "1") maglie = fundamental_cycles(G);
-else maglie = De_Pina(G);
-Eigen::MatrixXd B = ....;
-Eigen::MatrixXd R = ....;
-Eigen::VectorXd v = ....;
-Eigen::VectorXd i0 = Eigen::Vector::Zero(//numero dei cicli);
-const double tol =  1.0e-15;
-Eigen::VectorXd Vr = Calcolo(B,R,v,i0,tol);
+    
+    
+    
+    auto G = circuit_graph_generator(Res, Vol);
+    
+    char choice;
+    do{
+      cout << "digitare 1 se si desidera trovare i cicli fondamentali (maglie) attraverso il metodo basato sull'algoritmo DFS oppure 2 per il metodo di De Pina:\n";
+      cin >> choice;
+    }while(choice != "1" && choice != "2");
+    
+    
+    vector<vector<unidirected_edge<int>>> maglie;
+    if(choice == "1") maglie = fundamental_cycles(G);
+    else maglie = De_Pina(G);
+    Eigen::MatrixXd B = ....;
+    Eigen::MatrixXd R = ....;
+    Eigen::VectorXd v = ....;
+    Eigen::VectorXd i0 = Eigen::Vector::Zero(//numero dei cicli);
+    const double tol =  1.0e-15;
+    Eigen::VectorXd Vr = Calcolo(B,R,v,i0,tol);
 
