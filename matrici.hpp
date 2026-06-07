@@ -1,17 +1,16 @@
 #include<Eigen/Dense> //per matrici e vettori
 #include"unidirected_edge.hpp" 
+#include <map>
+#include <array>
+#include <vector>
 
 
 template<typename T>
-void matrici(){
-    int m = Res.size(); //numero di resistenze
-    Eigen::MatrixXd R = Eigen::MatrixXd::Zero(m, m); //creazione della matrice diagonale R che ha per elementi sulla diagonale le resistenze
+void matrici(Eigen::MatrixXd& R, Eigen::VectorXd& v, Eigen::MatrixXd& B, const vector<vector<unidirected_edge<int>>>& maglie, const std::map<int, array<double, 3>>& Res, const std::map<int, array<double, 3>>& Vol){
     for(auto& [key, obj]: Res){
         R(key-1, key-1) = obj[0];
     }
 
-    int n = maglie.size(); //numero di cicli trovati
-    Eigen::VectorXd v = Eigen::VectorXd::Zero(n); //creazione del vettore dei termini noti
     int i = 0;
     for(auto& vet: maglie){ //vet è un vettore di archi
         for(auto& [key, obj]: Vol){
@@ -28,8 +27,6 @@ void matrici(){
         i += 1;
     }
     
-    
-    Eigen::MatrixXd B = Eigen::MatrixXd::Zero(m, n); //matrice di incidenza (resistori maglie)
     int j = 0;
     for(auto& vet: maglie){ //vet è un vettore di archi
         for(auto& [key, obj]: Res){
