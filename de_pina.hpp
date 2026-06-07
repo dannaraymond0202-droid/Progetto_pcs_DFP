@@ -215,7 +215,7 @@ std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>
     }
 
     //costruisco la base di cicli
-    std::vector<std::vector<unidirected_edge<T>>> risultato; //vettore di vettori di archi (tutti i cicli orientati
+    std::vector<std::vector<unidirected_edge<T>>> risultato; //vettore di vettori di archi (tutti i cicli orientati)
 
     for(int i = 0; i < k; ++i){
         std::vector<int> Ci = trova_ciclo_minimo;
