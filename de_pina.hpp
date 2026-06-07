@@ -218,9 +218,9 @@ std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>
     std::vector<std::vector<unidirected_edge<T>>> risultato; //vettore di vettori di archi (tutti i cicli orientati)
 
     for(int i = 0; i < k; ++i){
-        std::vector<int> Ci = trova_ciclo_minimo;
+        std::vector<int> Ci;
         std::vector<unidirected_edge<T>> ciclo_orientato;
-        trova_ciclo_minimo(G, S_tot[i], pesi, Ci, ciclo_orientato); modifico tramite riferimento Ci e ciclo_orientato
+        trova_ciclo_minimo(G, S_tot[i], pesi, Ci, ciclo_orientato); //modifico tramite riferimento Ci e ciclo_orientato
 
         risultato.emplace_back(); //aggiungo un vettore vuoto al fondo del vettore di vettori
         risultato.back().swap.(ciclo_orientato); //scambia l'ultimo elemento(vuoto) con il ciclo orientato
