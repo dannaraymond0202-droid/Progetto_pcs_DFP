@@ -6,26 +6,31 @@ class unidirected_edge {
 private:
     T u;
     T v;
+    bool inverted;    //necessario per segnalare quando un generatore di tensione ha polarità opposta al verso canonino nodo minore --> nodo maggiore
 
 public:
     unidirected_edge(T a, T b) { //costruttore che garantisce che il nodo u sia minore del nodo v
         if(a==b){
-            std::cout<<"Errore non può esserci un arco con due nodi uguali";
             return;
         }
         if(a<b){
             u = a;
             v = b;
+            inverted = 0;
         }
         else {
-           u = b;
-           v = a; 
+            u = b;
+            v = a;
+            inverted = 1;
         }
     }
+
+    bool is_inv() { return inverted; }
 
     T from() const { //getter per leggere u
         return u;
     }
+
     T to() const { //getter per leggere v
         return v;
     }
