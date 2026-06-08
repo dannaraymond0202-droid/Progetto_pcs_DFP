@@ -35,7 +35,6 @@ int main(){
           poi.insert(pip[i]);
         }
         if(poi.contains('R')){ //creazione delle due mappa Res e Vol
-          cout<<"Ho letto correttamente R";
           poi.clear();
           ifs >> valori[0];
           ifs >> valori[1];
@@ -44,7 +43,6 @@ int main(){
           r++;
         }
         else if(poi.contains('V')){
-          cout<<"Ho letto correttamnete V"; 
           poi.clear();
           ifs >> valori[0];
           ifs >> valori[1]; 
