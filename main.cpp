@@ -64,7 +64,7 @@ int main(){
     
     
     vector<vector<unidirected_edge<int>>> maglie;
-    if(choice == "1") maglie = fundamental_cycles(G);
+    if(choice == '1') maglie = fundamental_cycles(G);
     else maglie = De_Pina(G);
 
     int m = Res.size(); //numero di resistenze
@@ -78,8 +78,8 @@ int main(){
     const double tol =  1.0e-15;
     Eigen::MatrixXd Risultato = Calcolo(B,R,v,tol); //matrice in cui nella prima colonna ci sono le Vr e nella seconda le Ir (numero di righe = numero di resistenze)
 
-    for(auto& [n, info] : Res){
-        cout << "R" << n << ": V = " << Risultato(n-1,0) << " volts, I = " << Risultato(n-1,1) << " amps.\n";
+    for(auto& [num, info] : Res){
+        cout << "R" << num << ": V = " << Risultato(num-1,0) << " volts, I = " << Risultato(num-1,1) << " amps.\n";
     }
     
     return 0;
