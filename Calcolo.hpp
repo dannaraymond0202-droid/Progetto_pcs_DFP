@@ -9,5 +9,5 @@ Eigen:MatrixXd Calcolo(Eigen::MatrixXd& B, Eigen::MatrixXd& R , Eigen::VectorXd&
         Risultato(i,2) = Vr[i]/R[i][i];
     }
     
-    return Vr;
+    return Risultato;
 }
