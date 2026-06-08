@@ -76,6 +76,7 @@ public:
 //trova il ciclo minimo C (vettore di incidenza del ciclo) con <C, S> = 1 usando Dijkstra
 template<typename T>
 void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S, const std::map<unidirected_edge<T>, double>& pesi_originali, std::vector<int>& C_out, std::vector<unidirected_edge<T>>& ciclo_archi_out){
+//ciclo archi out è un vettore di archi che immagazina l'informazione del verso di percorrenza (attraverso le flag degli archi is inverted)
 
     std::list<unidirected_edge<T>> archi_tot = G.all_edges(); //lista di tutti gli archi (all_edges restituisce una lista, scelto perché mantiene l'ordine di inserimento)
     int m = 0;
