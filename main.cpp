@@ -77,7 +77,7 @@ int main(){
     Eigen::VectorXd I0 = Eigen::Vector::Zero(maglie.size);
     Eigen::VectorXd Ir = Eigen::Vector::Zero(Res.size);
     const double tol =  1.0e-15;
-    Eigen::VectorXd Risultato = Calcolo(B,R,v,I0,tol); //matrice in cui nella prima colonna ci sono le Vr e nella seconda le Ir (numero di righe = numero di resistenze)
+    Eigen::MatrixXd Risultato = Calcolo(B,R,v,I0,tol); //matrice in cui nella prima colonna ci sono le Vr e nella seconda le Ir (numero di righe = numero di resistenze)
 
     for(auto& [n, info] : Res){
         cout << "R" << n << ": V = " << Risultato(n-1,0) << " volts, I = " << Risultato(n-1,1) << " amps.\n";
