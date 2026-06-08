@@ -5,8 +5,8 @@ Eigen:MatrixXd Calcolo(Eigen::MatrixXd& B, Eigen::MatrixXd& R , Eigen::VectorXd&
     Eigen::VectorXd Vr = R*B*i0;
     Eigen::MatrixXd Risultato;
     for(int i = 0; i<Vr.size(); i++){
-        Risultato(i,1) = Vr[i];
-        Risultato(i,2) = Vr[i]/R[i][i];
+        Risultato(i,0) = Vr[i];
+        Risultato(i,1) = Vr[i]/R[i][i];
     }
     
     return Risultato;
