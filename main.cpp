@@ -21,8 +21,8 @@ int main(){
     //Lettura File
     map<int, array<double, 3>> Res, Vol;
     string filename = "circuito.txt";
-    int r = 1;
-    int v = 1;
+    int re = 1;
+    int vo = 1;
     ifstream ifs(filename);
     if (ifs.is_open()){    //selezione di check dell'apertura per evitare errori 
       while(!ifs.eof()){    //fino a quando non arriva alla fine del file fa ....
@@ -38,16 +38,16 @@ int main(){
           ifs >> valori[0];
           ifs >> valori[1];
           ifs >> valori[2];
-          Res[r] = valori;
-          r++;
+          Res[re] = valori;
+          re++;
         }
         else if(caratteri_codice_componente.contains('V')){
           caratteri_codice_componente.clear();
           ifs >> valori[0];
           ifs >> valori[1]; 
           ifs >> valori[2];
-          Vol[v] = valori;
-          v++;
+          Vol[vo] = valori;
+          vo++;
         }
       }
     }
