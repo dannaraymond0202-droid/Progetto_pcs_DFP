@@ -4,8 +4,6 @@
 #include <array>
 #include <vector>
 
-
-template<typename T>
 void matrici(Eigen::MatrixXd& R, Eigen::VectorXd& v, Eigen::MatrixXd& B, const vector<vector<unidirected_edge<int>>>& maglie, const std::map<int, array<double, 3>>& Res, const std::map<int, array<double, 3>>& Vol){
     for(auto& [key, obj]: Res){
         R(key-1, key-1) = obj[0];
