@@ -74,12 +74,13 @@ int main(){
     Eigen::MatrixXd B = Eigen::MatrixXd::Zero(m, n); //matrice di incidenza (resistori maglie)
     matrici(R, v, B, maglie, Res, Vol);
     
-    Eigen::VectorXd i0 = Eigen::Vector::Zero(//numero dei cicli);
+    Eigen::VectorXd I0 = Eigen::Vector::Zero(maglie.size);
+    Eigen::VectorXd Ir = Eigen::Vector::Zero(Res.size);
     const double tol =  1.0e-15;
-    Eigen::VectorXd Vr = Calcolo(B,R,v,i0,tol);
+    Eigen::VectorXd Vr = Calcolo(B,R,v,I0,tol);
 
     for(auto& [n, info] : Res){
-        cout << "R" << n << ": V = " << Vr[n] << " volts, I = " << i0[n] << " amps.\n";
+        cout << "R" << n << ": V = " << Vr[n] << " volts, I = " << I0[n] << " amps.\n";
     }
     
     return 0;
