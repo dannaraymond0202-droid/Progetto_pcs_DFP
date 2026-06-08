@@ -74,8 +74,8 @@ int main(){
     Eigen::MatrixXd B = Eigen::MatrixXd::Zero(m, n); //matrice di incidenza (resistori maglie)
     matrici(R, v, B, maglie, Res, Vol);
     
-    Eigen::VectorXd I0 = Eigen::Vector::Zero(maglie.size());
-    Eigen::VectorXd Ir = Eigen::Vector::Zero(Res.size());
+    Eigen::VectorXd I0 = Eigen::VectorXd::Zero(maglie.size());
+    Eigen::VectorXd Ir = Eigen::VectorXd::Zero(Res.size());
     const double tol =  1.0e-15;
     Eigen::MatrixXd Risultato = Calcolo(B,R,v,I0,tol); //matrice in cui nella prima colonna ci sono le Vr e nella seconda le Ir (numero di righe = numero di resistenze)
 
