@@ -16,10 +16,10 @@ void matrici(Eigen::MatrixXd& R, Eigen::VectorXd& v, Eigen::MatrixXd& B, const v
         for(auto& [key, obj]: Vol){
             unidirected_edge<T> a(obj[1], obj[2]);
             for(auto& e : vet){ //ciclo su ogni arco del vettore della singola maglia
-                if(e == a && is_inv(e) == is_inv(a)){ //significa che stiamo attraversando la maglia dal morsetto positivo
+                if(e == a && e.is_inv() == a.is_inv()){ //significa che stiamo attraversando la maglia dal morsetto positivo
                     v(i) = v(i) - obj[0];
                 }
-                if(e == a && is_inv(e) != is_inv(a)){ //significa che stiamo attraversando la maglia dal morsetto negativo
+                if(e == a && e.is_inv() != a.is_inv()){ //significa che stiamo attraversando la maglia dal morsetto negativo
                     v(i) = v(i) + obj[0];
                 }
             }
@@ -32,10 +32,10 @@ void matrici(Eigen::MatrixXd& R, Eigen::VectorXd& v, Eigen::MatrixXd& B, const v
         for(auto& [key, obj]: Res){
             unidirected_edge<T> a(obj[1], obj[2]);
             for(auto& e : vet){ //ciclo su ogni arco del vettore della singola maglia
-                if(e == a && !(is_inv(e))){ //significa che stiamo attraversando la maglia nello stesso vero del resistore
+                if(e == a && !(e.is_inv())){ //significa che stiamo attraversando la maglia nello stesso vero del resistore
                     B(key-1, j) = 1;
                 }
-                if(e == a && is_inv(e)){ //significa che stiamo attraversando la maglia nel senso opposto rispetto al resistore
+                if(e == a && e.is_inv()){ //significa che stiamo attraversando la maglia nel senso opposto rispetto al resistore
                     B(key-1, j) = -1;
                 } 
             }
