@@ -2,7 +2,7 @@
 #include <fstream>
 #include <map>
 #include <array>
-#include <set>
+#include <unordered_set>
 #include <vector>
 #include <Eigen/Dense>
 #include "cicli_dfs.hpp"
