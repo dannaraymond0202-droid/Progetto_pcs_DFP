@@ -56,7 +56,7 @@ bool operator==(const unidirected_edge& other) const { //operatore per definire 
 };
 
 template <typename I>
-ostream& operator<<(ostream& os, const undirected_edge<I>& e)
+ostream& operator<<(ostream& os, const unidirected_edge<I>& e)
 {
     os << "(" << e.from() << ")---(" << e.to() << ")";
     return os;
