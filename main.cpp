@@ -24,25 +24,25 @@ int main(){
     int r = 1;
     int v = 1;
     ifstream ifs(filename);
-    if (ifs.is_open()){//comando dii check dell'apertura per evitare errori 
-      while(!ifs.eof()){//fino a quando non arriva alla fine fa ....
-        string pip;
+    if (ifs.is_open()){    //selezione di check dell'apertura per evitare errori 
+      while(!ifs.eof()){    //fino a quando non arriva alla fine del file fa ....
+        string codice_componente;    //R oppure V e il numero sequenziale associato
         array<double,3> valori;
-        ifs >> pip;
-        set<char> poi;
-        for(int i = 0; i<pip.size(); i++){
-          poi.insert(pip[i]);
+        ifs >> codice_componente;
+        unordered_set<char> caratteri_codice_componente;
+        for(int i = 0; i<codice_componente.size(); i++){
+          caratteri_codice_componente.insert(codice_componente[i]);    //conversione necessaria a controllare se il carattere R oppure V sono presenti
         }
-        if(poi.contains('R')){ //creazione delle due mappa Res e Vol
-          poi.clear();
+        if(caratteri_codice_componente.contains('R')){ //inizializzazione delle due mappe Res e Vol
+          caratteri_codice_componente.clear();
           ifs >> valori[0];
           ifs >> valori[1];
           ifs >> valori[2];
           Res[r] = valori;
           r++;
         }
-        else if(poi.contains('V')){
-          poi.clear();
+        else if(caratteri_codice_componente.contains('V')){
+          caratteri_codice_componente.clear();
           ifs >> valori[0];
           ifs >> valori[1]; 
           ifs >> valori[2];
