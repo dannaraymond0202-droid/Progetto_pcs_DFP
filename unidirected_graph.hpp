@@ -9,7 +9,7 @@ template <typename T>
 class unidirected_graph {
 private:
     std::map<T, std::set<T>> adj;  //crea una mappa (un dizionario) la cui chiave è un nodo e il valore un insieme (quello dei suoi vicini)
-    std::set<unidirected_edge<T>> edges; //lista di tutti gli archi in ordine di inserimento
+    std::list<unidirected_edge<T>> edges; //lista di tutti gli archi in ordine di inserimento
 
 public:
 
