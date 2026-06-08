@@ -26,7 +26,7 @@ public:
         }
     }
 
-    bool is_inv() { return inverted; }
+    bool is_inv() const { return inverted; }
 
     T from() const { //getter per leggere u
         return u;
