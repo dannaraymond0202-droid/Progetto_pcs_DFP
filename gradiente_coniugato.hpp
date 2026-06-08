@@ -1,0 +1,31 @@
+#include <Eigen/Dense>
+#include <Eigen/SVD>
+
+
+Eigen::VectorXd   gradiente_coniugato(Eigen::MatrixXd& A, Eigen::VectorXd& b, Eigen::VectorXd& x0,double tol){
+    Eigen::VectorXd r0 = b - A*x0;
+    Eigen::VectorXd p0 = r0;
+    float n  = std::sqrt(A.size());  // faccio la radice perché il comado .size() ritorna 9 = 3*3 se n = 3;
+    int k = 0;
+    Eigen::VectorXd x;
+    std::cout<<"Numero di iterazioni compiute: " ;
+    while (k<10*n && r0.norm()>tol){
+        double alpha_k = ((p0.transpose()*r0) / (p0.transpose()*A *p0)).value();
+        x = x0 + alpha_k*p0;
+        r0 = b - A*x;
+        double betha_k = ((p0.transpose()*A*r0) / (p0.transpose()*A *p0)).value();
+        p0 = r0 - betha_k*p0;
+        k = k+1;
+        x0  = x;
+    }
+    std::cout<< k<<"\n";
+    return x;
+
+}
+
+
+double condA(const Eigen::MatrixXd& A){
+  Eigen::JacobiSVD<Eigen::MatrixXd> svd(A);
+  Eigen::VectorXd singularValuesA = svd.singularValues();
+  return singularValuesA.maxCoeff() / singularValuesA.minCoeff();
+}
