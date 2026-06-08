@@ -195,7 +195,7 @@ std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>
     unidirected_graph<T> coalbero = G - albero;
 
     // m = numero di archi  k = dimensione della base (|E| - |V| + 1)
-    std::set<unidirected_edge<T>> archi_tot = G.all_edges();
+    std::list<unidirected_edge<T>> archi_tot = G.all_edges();
     int m = 0;
     for(auto it=archi_tot.begin(); it!= archi_tot.end(); ++it){ //conto il numero di archi
         ++m;
@@ -203,7 +203,7 @@ std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>
     int k = m - G.all_nodes().size() + 1;
 
     //inizializzo i vettori Si, uno per ogni arco del coalbero
-    std::set<unidirected_edge<T>> back_edges = coalbero.all_edges();
+    std::list<unidirected_edge<T>> back_edges = coalbero.all_edges();
     std::vector<std::vector<int>> S_tot;
     for(auto it=back_edges.begin(); it!= back_edges.end(); ++it){
         std::vector<int> S(m, 0); //creo un vettore di lunghezza m, tutto inizializzato a 0
