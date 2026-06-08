@@ -12,7 +12,7 @@ void matrici(Eigen::MatrixXd& R, Eigen::VectorXd& v, Eigen::MatrixXd& B, const v
     int i = 0;
     for(auto& vet: maglie){ //vet è un vettore di archi
         for(auto& [key, obj]: Vol){
-            unidirected_edge<T> a(obj[1], obj[2]);
+            unidirected_edge<int> a(obj[1], obj[2]);
             for(auto& e : vet){ //ciclo su ogni arco del vettore della singola maglia
                 if(e == a && e.is_inv() == a.is_inv()){ //significa che stiamo attraversando la maglia dal morsetto positivo
                     v(i) = v(i) - obj[0];
@@ -28,7 +28,7 @@ void matrici(Eigen::MatrixXd& R, Eigen::VectorXd& v, Eigen::MatrixXd& B, const v
     int j = 0;
     for(auto& vet: maglie){ //vet è un vettore di archi
         for(auto& [key, obj]: Res){
-            unidirected_edge<T> a(obj[1], obj[2]);
+            unidirected_edge<int> a(obj[1], obj[2]);
             for(auto& e : vet){ //ciclo su ogni arco del vettore della singola maglia
                 if(e == a && !(e.is_inv())){ //significa che stiamo attraversando la maglia nello stesso vero del resistore
                     B(key-1, j) = 1;
