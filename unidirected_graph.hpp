@@ -39,8 +39,8 @@ public:
     }
 
 
-    std::set<unidirected_edge<T>> all_edges() const { //restituisce la lista di tutti gli archi
-        return edges; //fa una copia della lista di archi
+    std::set<unidirected_edge<T>> all_edges() const { //restituisce l'insieme di tutti gli archi
+        return edges; //fa una copia dell'insieme di archi
     }
 
     std::set<T> all_nodes() const { //restituisce l'insieme di tutti i nodi
