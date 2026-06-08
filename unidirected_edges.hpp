@@ -1,5 +1,6 @@
 #pragma once //serve per non avere errori di ridefinizione della classe quando la chiamiamo più volte
 #include<iostream> //serve per ostream (che serve per stampare tutti i tipi di output)
+using namespace std;
 
 template <typename T>
 class unidirected_edge {
