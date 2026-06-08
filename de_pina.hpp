@@ -158,7 +158,7 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
 
         //costruisco il vettore di incidenza C e vettore archi orientati
         std::vector<int> C(m, 0); //m= numero di elementi del vettore (corrisponde al numero totale di archi nel grafo originale), inizialmente tutti inizializzati a 0
-        std::vector<unidirected_edge<T>> archi ciclo;
+        std::vector<unidirected_edge<T>> archi_ciclo;
         for(int k = cammino.size()-1; k > 0; --k){
             T u_orig = cammino[k].getVertice();
             T v_orig = cammino[k-1].getVertice();
