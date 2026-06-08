@@ -224,7 +224,7 @@ std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>
         trova_ciclo_minimo(G, S_tot[i], pesi, Ci, ciclo_orientato); //modifico tramite riferimento Ci e ciclo_orientato
 
         risultato.emplace_back(); //aggiungo un vettore vuoto al fondo del vettore di vettori
-        risultato.back().swap.(ciclo_orientato); //scambia l'ultimo elemento(vuoto) con il ciclo orientato
+        risultato.back().swap(ciclo_orientato); //scambia l'ultimo elemento(vuoto) con il ciclo orientato
 
         //agiorno Sj per j>i (affinché per ogni j>i <Ci, Sj> = 0)
         for(int j = i + 1; j< k; ++j){ //stiamo già iterando su i nel ciclo appena più esterno
