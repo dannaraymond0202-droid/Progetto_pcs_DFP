@@ -52,10 +52,11 @@ bool operator==(const unidirected_edge& other) const { //operatore per definire 
         return false;
     }
 }
+};
 
-std::ostream& operator<<(std::ostream& os, const unidirected_edge& e) {
-    os << "(" << e.from() << "," << e.to() << ")"; 
+template <typename I>
+ostream& operator<<(ostream& os, const undirected_edge<I>& e)
+{
+    os << "(" << e.from() << ")---(" << e.to() << ")";
     return os;
 }
-
-};
