@@ -5,7 +5,7 @@ Eigen::MatrixXd Calcolo(Eigen::MatrixXd& B, Eigen::MatrixXd& R , Eigen::VectorXd
     Eigen::VectorXd i0 = Eigen::VectorXd::Zero(B.cols());
     Eigen::VectorXd i = gradiente_coniugato(A, v, i0, tol);
     Eigen::VectorXd Vr = R*B*i;
-    Eigen::MatrixXd Risultato;
+    Eigen::MatrixXd Risultato = Eigen::MatrixXd::Zero(Vr.size(), 2);
     for(int j = 0; j <Vr.size(); j++){
         Risultato(j,0) = Vr[j];
         Risultato(j,1) = Vr[j]/R(j,j);
