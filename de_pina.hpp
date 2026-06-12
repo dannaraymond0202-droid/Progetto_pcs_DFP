@@ -32,7 +32,7 @@ std::vector<int> diff_simmetrica(const std::vector<int>& a, const std::vector<in
     return res;
 }
 
-//creo una classe di lfted nodes
+//creo una classe di lifted nodes, che è wrapper di T con l'aggiunta dell'attributo "segno"
 template<typename T>
 class LiftedNode {
     private: 
@@ -46,13 +46,13 @@ public:
         segno = false;
     }
 
-    LiftedNode(const T& v, bool s){ //costruttore
+    LiftedNode(const T& v, bool s){ //costruttore user_defined
         vertice = v;
         segno = s;
     }
 
     T getVertice() const {return vertice;} //getter
-    bool getSegno() const {return segno;}
+    bool getSegno() const {return segno;} //getter
 
     bool operator<(const LiftedNode& other) const { //confronta this con other (riferimento costante a LiftedNode)   confronta due nodi
         if (vertice < other.vertice) {return true;}    //dentro la classe non serve usare il getter possiamo accedere ai membri privati
@@ -79,15 +79,12 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
 //ciclo archi out è un vettore di archi che immagazina l'informazione del verso di percorrenza (attraverso le flag degli archi is inverted)
 
     std::list<unidirected_edge<T>> archi_tot = G.all_edges(); //lista di tutti gli archi (all_edges restituisce una lista, scelto perché mantiene l'ordine di inserimento)
-    int m = 0;
-    for(auto it=archi_tot.begin(); it!= archi_tot.end(); ++it){ //conto il numero di archi
-        ++m;
-    }
+    int m = archi_tot.size();
 
     std::set<T> nodi_originali = G.all_nodes(); //numero i vertici da 0 a n-1  (all_nodes restituisce un set scelto perché garantisce l'unicità)
 
     //costruzione del grafo lifted
-    unidirected_graph<LiftedNode<T>> G_lifted;
+    unidirected_graph<LiftedNode<T>> G_lifted;    //vedi riga 35 per la classe LiftedNode
    
     std::map<unidirected_edge<LiftedNode<T>>, double> pesi_lifted;
 
@@ -99,12 +96,7 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
         int indice = G.edge_number(*it); //prendo l'indice dell'arco nel grafo originale (per ogni arco)
         bool attivo = (S[indice] == 1); //S è il vettore di adiacenza, se S all'indice corrente è 1 allora attivo = true (se S[indice] == 0 allora attivo = false)
 
-        double peso = 1.0;  //default assumiamo peso = 1.0
-        if(pesi_originali.find(*it) != pesi_originali.end()){ //se nella mappa originale ci sono dei pesi diversi lo sovrascrive in peso
-            peso = pesi_originali.at(*it); //accede al valore la cui chiave è l'arco corrente
-        }
-
-        if(attivo){ //archi incrociati
+        if(attivo){ //creazione archi "incrociati" nel grafo liftato
 
             unidirected_edge<LiftedNode<T>> e1(LiftedNode<T>(u, false), LiftedNode<T>(v, true)); //(u-, v+)
             unidirected_edge<LiftedNode<T>> e2(LiftedNode<T>(u, true), LiftedNode<T>(v, false)); //(u+, v-)
@@ -114,7 +106,7 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
             pesi_lifted[e2] = peso;
         }
 
-        else{ //archi parallleli
+        else{ //creazione archi "paralleli" nel grafo liftato
             unidirected_edge<LiftedNode<T>> e1(LiftedNode<T>(u, false), LiftedNode<T>(v, false)); //(u-, v-)
             unidirected_edge<LiftedNode<T>> e2(LiftedNode<T>(u, true), LiftedNode<T>(v, true)); //(u+, v+)
             G_lifted.add_edge(e1.from(), e1.to());
@@ -189,38 +181,36 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
 template<typename T>
 std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>& G){
     lifo<T> pila;
-    std::map<unidirected_edge<T>, double> pesi; //vuoto (pesi=1 per default)
+    std::map<unidirected_edge<T>, double> pesi; //dichiarazione
+    for(auto& e : G.all_edge()) pesi[e] = 1.0;    //inizializzazione di tutti i pesi a 1 per default
     T sorgente = *(G.all_nodes().begin());
     unidirected_graph<T> albero = graph_visit(G, sorgente, pila);
     unidirected_graph<T> coalbero = G - albero;
 
     // m = numero di archi  k = dimensione della base (|E| - |V| + 1)
     std::list<unidirected_edge<T>> archi_tot = G.all_edges();
-    int m = 0;
-    for(auto it=archi_tot.begin(); it!= archi_tot.end(); ++it){ //conto il numero di archi
-        ++m;
-    }
+    int m = G.all_edges().size();
     int k = m - G.all_nodes().size() + 1;
 
-    //inizializzo i vettori Si, uno per ogni arco del coalbero
+    //dichiaro e inizializzo i vettori di adiacenza booleani S_i, uno per ogni arco del coalbero
     std::list<unidirected_edge<T>> back_edges = coalbero.all_edges();
     std::vector<std::vector<int>> S_tot;
-    for(auto it=back_edges.begin(); it!= back_edges.end(); ++it){
-        std::vector<int> S(m, 0); //creo un vettore di lunghezza m, tutto inizializzato a 0
+    for(auto it=back_edges.begin(); it!= back_edges.end(); ++it){    //iteriamo con l'iteratore it
+        std::vector<int> S_i(m, 0); //creo il vettore S_i di lunghezza m, tutto inizializzato a 0
         int indice = G.edge_number(*it); //indice dell'arco nel grafo originario
 
-        if(indice >= 0){  //se il back_edge nel grafo originle viene trovato
-            S[indice] = 1;
+        if(indice >= 0){  //se il back_edge nel grafo originale viene trovato
+            S_i[indice] = 1;    //allora S_i avrà un elemento pari a 1 nella posizione ocrrispondente all'indice del back edge nel grafo originario
         }
-        S_tot.push_back(S);
+        S_tot.push_back(S);    //aggiungiamo al vettore di vettori il nostro S_i
     }
 
     //costruisco la base di cicli
     std::vector<std::vector<unidirected_edge<T>>> risultato; //vettore di vettori di archi (tutti i cicli orientati)
 
     for(int i = 0; i < k; ++i){
-        std::vector<int> Ci;
-        std::vector<unidirected_edge<T>> ciclo_orientato;
+        std::vector<int> Ci;    //vettore di incidenza
+        std::vector<unidirected_edge<T>> ciclo_orientato;    //quello che verrà inserito nel vettore di vettori "risultato"
         trova_ciclo_minimo(G, S_tot[i], pesi, Ci, ciclo_orientato); //modifico tramite riferimento Ci e ciclo_orientato
 
         risultato.emplace_back(); //aggiungo un vettore vuoto al fondo del vettore di vettori
