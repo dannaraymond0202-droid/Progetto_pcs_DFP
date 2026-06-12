@@ -20,8 +20,8 @@ using namespace std;
 int main(){
     //Lettura File
     map<int, array<double, 3>> Res, Vol;
-    string filename = "circuito.txt";
-    int re = 1;
+    string filename = "circuito.txt";    //percorso file omesso poiché il file di input è gia collocato nella cartella build del progetto
+    int re = 1;    //contatori per inserire i valori relativi a ogni componente nella giusta posizione delle mappe Res e Vol
     int vo = 1;
     ifstream ifs(filename);
     if (ifs.is_open()){    //selezione di check dell'apertura per evitare errori 
@@ -35,17 +35,17 @@ int main(){
         }
         if(caratteri_codice_componente.contains('R')){ //inizializzazione delle due mappe Res e Vol
           caratteri_codice_componente.clear();
-          ifs >> valori[0];
-          ifs >> valori[1];
-          ifs >> valori[2];
+          ifs >> valori[0];    //valore in ohm
+          ifs >> valori[1];    //nodo di partenza
+          ifs >> valori[2];    //nodo di arrivo
           Res[re] = valori;
           re++;
         }
         else if(caratteri_codice_componente.contains('V')){
           caratteri_codice_componente.clear();
-          ifs >> valori[0];
-          ifs >> valori[1]; 
-          ifs >> valori[2];
+          ifs >> valori[0];    //valore in volt
+          ifs >> valori[1];    //nodo di partenza
+          ifs >> valori[2];    //nodo di arrivo
           Vol[vo] = valori;
           vo++;
         }
