@@ -102,8 +102,8 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
             unidirected_edge<LiftedNode<T>> e2(LiftedNode<T>(u, true), LiftedNode<T>(v, false)); //(u+, v-)
             G_lifted.add_edge(e1.from(), e1.to()); //aggiungo all'arco liftato
             G_lifted.add_edge(e2.from(), e2.to());
-            pesi_lifted[e1] = pesi_originali[*it];
-            pesi_lifted[e2] = pesi_originali[*it];
+            pesi_lifted[e1] = pesi_originali.at(*it);
+            pesi_lifted[e2] = pesi_originali.at(*it);
         }
 
         else{ //creazione archi "paralleli" nel grafo liftato
@@ -111,8 +111,8 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
             unidirected_edge<LiftedNode<T>> e2(LiftedNode<T>(u, true), LiftedNode<T>(v, true)); //(u+, v+)
             G_lifted.add_edge(e1.from(), e1.to());
             G_lifted.add_edge(e2.from(), e2.to());
-            pesi_lifted[e1] = pesi_originali[*it];
-            pesi_lifted[e2] = pesi_originali[*it];
+            pesi_lifted[e1] = pesi_originali.at(*it);
+            pesi_lifted[e2] = pesi_originali.at(*it);
         }
     }
 
