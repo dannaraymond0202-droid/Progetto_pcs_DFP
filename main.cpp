@@ -60,7 +60,7 @@ int main(){
     do{
       cout << "digitare 1 se si desidera trovare i cicli fondamentali (maglie) attraverso il metodo basato sull'algoritmo DFS oppure 2 per il metodo di De Pina:\n";
       cin >> choice;
-    }while(choice != '1' && choice != '2');
+    }while(choice != '1' && choice != '2');// il do while esegue almeno una volta il corpo e poi continua fino a che il carattere non è tra quelli previsti
     
     
     vector<vector<unidirected_edge<int>>> maglie;
