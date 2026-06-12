@@ -18,18 +18,18 @@ int ps_mod2(const std::vector<int>& a, const std::vector<int>& b) {
     return mod;
 }
 
-//differenza simmetrica vettori binari(XOR)
+//differenza simmetrica tra vettori binari (XOR)
 std::vector<int> diff_simmetrica(const std::vector<int>& a, const std::vector<int>& b){
-    std::vector<int> res(a.size()); //inizializzo il vettore di dimensione uguale ad a
+    std::vector<int> diff(a.size()); //inizializzo il vettore di dimensione uguale ad a
     for(int i=0; i < a.size(); ++i){
         if(a[i] != b[i]){
-            res[i] = 1;
+            diff[i] = 1;
         }
         else{
-            res[i] = 0;
+            diff[i] = 0;
         }
     }
-    return res;
+    return diff;
 }
 
 //creo una classe di lifted nodes, che è wrapper di T con l'aggiunta dell'attributo "segno"
@@ -140,33 +140,32 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
 
         std::vector<LiftedNode<T>> cammino;  //un vettore è ordinato per ordine di inserimento, sarà [destinazione, ..., sorgente]
         LiftedNode<T> attuale = destinazione;
-        while(!(attuale.getVertice() == sorgente.getVertice() && attuale.getSegno() == sorgente.getSegno())){//il while si ferma quando il nodo corrente è lo stesso nodo della sorgente e ha lo stesso segno della sorgente (quindi quando raggiunge esattamente la sorgente, che è l'unico nodo ad avere la proprietà di essere associato a se stesso nella mappa "pred")
+        while(!(attuale.getVertice() == sorgente.getVertice() && attuale.getSegno() == sorgente.getSegno())){//il while si ferma quando il nodo attuale è lo stesso nodo della sorgente e ha lo stesso segno della sorgente (quindi quando raggiunge esattamente la sorgente, che è l'unico nodo ad avere la proprietà di essere associato a se stesso nella mappa "pred")
             cammino.push_back(attuale); //aggiungo al cammino il nodo attuale
             attuale = pred[attuale]; //prendiamo il predecessore del nodo attuale per risalire di 1 passo la mappa dei predecessori
         }
-
-        cammino.push_back(sorgente); //aggiungo la sorgente
+        cammino.push_back(sorgente); //aggiungo la sorgente al fondo del cammino
 
 
         //costruisco il vettore di incidenza C e vettore archi orientati
         std::vector<int> C(m, 0); //m= numero di elementi del vettore (corrisponde al numero totale di archi nel grafo originale), inizialmente tutti inizializzati a 0
-        std::vector<unidirected_edge<T>> archi_ciclo;
-        for(int k = cammino.size()-1; k > 0; --k){
+        std::vector<unidirected_edge<T>> archi_ciclo;    //sempre il vettore ausiliario per tenere traccia del verso di percorrenza delle maglie
+        for(int k = cammino.size()-1; k > 0; --k){    //iteriamo al contrario poiché come si può vedere da riga 143 il cammino è nenorizzato dalla fine all'inizio
             T u_orig = cammino[k].getVertice();
             T v_orig = cammino[k-1].getVertice();
             if(u_orig == v_orig){
-                continue; //se i nodi sono uguali non si ha realmente attraversato un arco, è causa dal lifting
+                continue; //se i nodi sono uguali non si ha realmente attraversato un arco, è a causa dal lifting
             }
-            unidirected_edge<T> e_orig(u_orig, v_orig);
+            unidirected_edge<T> e_orig(u_orig, v_orig);    //dichiarandolo così manteniamo il verso di percorrenza
             int indice = G.edge_number(e_orig); //trova l'indice dell'arco nel grafo originale
-            if(indice >= 0){
+            if(indice >= 0){    //se e_orig è stato trovato nel grafo
                 C[indice] = (C[indice]+1) % 2; //0 diventa 1 e 1 diventa 0, così vengono inseriti solo gli archi percorsi un numero dispari di volte
             }
-            archi_ciclo.push_back(e_orig); //ordine: sorgente, ..., destinazione
+            archi_ciclo.push_back(e_orig); //ordine: sorgente, ..., destinazione e inoltre è stata preservata l'informazione sul verso di percorrenza
         }
         
-        if(ps_mod2(C, S) == 1){  //controlla che il prodotto scalare tra C ed S sia 1
-            best_len = len;
+        if(ps_mod2(C, S) == 1){  //controlla che il prodotto scalare tra C ed S sia 1 significa che abbiamo trovato un nuovo ciclo minimo!
+            best_len.swap(len);
             best_C.swap(C); // best_C = C ma evita copie
             best_archi.swap(archi_ciclo);
         }
@@ -190,7 +189,7 @@ std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>
     // m = numero di archi  k = dimensione della base (|E| - |V| + 1)
     std::list<unidirected_edge<T>> archi_tot = G.all_edges();
     int m = G.all_edges().size();
-    int k = m - G.all_nodes().size() + 1;
+    int k = m - G.all_nodes().size() + 1;    //dimensione della base di cicli minimi ossia il "numero ciclomatico"
 
     //dichiaro e inizializzo i vettori di adiacenza booleani S_i, uno per ogni arco del coalbero
     std::list<unidirected_edge<T>> back_edges = coalbero.all_edges();
@@ -214,10 +213,10 @@ std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>
         trova_ciclo_minimo(G, S_tot[i], pesi, Ci, ciclo_orientato); //modifico tramite riferimento Ci e ciclo_orientato
 
         risultato.emplace_back(); //aggiungo un vettore vuoto al fondo del vettore di vettori
-        risultato.back().swap(ciclo_orientato); //scambia l'ultimo elemento(vuoto) con il ciclo orientato
+        risultato.back().swap(ciclo_orientato); //scambia l'ultimo elemento(vuoto) con il ciclo orientato, senza fare copie temporanee inutili grazie a emplace_back + swap
 
-        //agiorno Sj per j>i (affinché per ogni j>i <Ci, Sj> = 0)
-        for(int j = i + 1; j< k; ++j){ //stiamo già iterando su i nel ciclo appena più esterno
+        //aggiorno Sj per j>i (affinché per ogni j>i <Ci, Sj> = 0)
+        for(int j = i + 1; j < k; ++j){ //stiamo già iterando su i nel ciclo appena più esterno
             if(ps_mod2(Ci, S_tot[j]) == 1){
                 S_tot[j] = diff_simmetrica(S_tot[j], Ci);
             }
