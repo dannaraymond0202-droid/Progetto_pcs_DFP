@@ -57,7 +57,7 @@ bool operator==(const unidirected_edge& other) const { //operatore per definire 
 };
 
 template <typename I>
-ostream& operator<<(ostream& os, const unidirected_edge<I>& e) //operatore per stampare un arco, fuori dalla classe
+ostream& operator<<(ostream& os, const unidirected_edge<I>& e) //operatore per stampare un arco, fuori dalla classe perché deve essere un operatore di flusso che lavora con std::ostream& come primo operando
 {
     os << "(" << e.from() << ")---(" << e.to() << ")";
     return os;
