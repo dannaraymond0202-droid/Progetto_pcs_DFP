@@ -12,6 +12,6 @@ unidirected_graph<int> circuit_graph_generator(map<int, array<double, 3>>& Res, 
   for(auto& [n,info] : Vol){
     G.add_edge(info.at(1), info.at(2));
   }
-       //in Unidirect_edges.hpp abbiamo agigutno un menbro privato booleano per verificare la direzione del componente  
+       //in Unidirect_edges.hpp abbiamo aggiunto un membro privato booleano per verificare la direzione del componente  
   return G;
 }
