@@ -1,8 +1,8 @@
 #pragma once //serve per non avere errori di ridefinizione della classe quando la chiamiamo più volte
-#include<iostream>
 #include<map>
 #include<set>
 #include<list>
+#include<algorithm>    //aggiunto per la funzione find
 #include"unidirected_edges.hpp"
 
 template <typename T>
@@ -31,7 +31,8 @@ public:
     void add_edge(T a, T b) { //aggiunge un arco al grafo, i nodi vengono aggiunti implicitamente
         unidirected_edge<T> e(a,b);
 
-        edges.push_back(e); //se non l'ho trovato lo aggiungo alla fine della lista
+        auto i = find(all_edges.begin(), all_edges.end(), e);
+        if(i != all_edges.end()) edges.push_back(e); //se non l'ho trovato lo aggiungo alla fine della lista
 
         //aggiorno la lista di adiacenza
         adj[e.from()].insert(e.to()); //aggiungo "b" alla lista di vicini di "a"
@@ -65,7 +66,6 @@ public:
     unidirected_edge<T> edge_at(int i) const { //dato un indice restituisce il corrispondente arco
         //verifichiamo che l'indice non sia negativo
         if(i<0) {
-            std::cout<<"Errore: indice negativo in edge_at"<<"\n";
             return edges.front(); //mi restituisce il primo arco anche se non corrisponderebbe a niente perché deve restituire un arco
         }
 
@@ -74,7 +74,6 @@ public:
             if(pos == i) return *it;
             ++pos;
         }
-        std::cout<< "Errore: indice out of range"<<"\n";
         return edges.back(); //mi restituisce l'ultimo arco anche se non corrisponderebbe a niente perché deve restituire un arco
     }
 
