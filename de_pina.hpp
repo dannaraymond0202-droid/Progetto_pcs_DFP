@@ -102,8 +102,8 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
             unidirected_edge<LiftedNode<T>> e2(LiftedNode<T>(u, true), LiftedNode<T>(v, false)); //(u+, v-)
             G_lifted.add_edge(e1.from(), e1.to()); //aggiungo all'arco liftato
             G_lifted.add_edge(e2.from(), e2.to());
-            pesi_lifted[e1] = peso;
-            pesi_lifted[e2] = peso;
+            pesi_lifted[e1] = pesi_originali[*it];
+            pesi_lifted[e2] = pesi_originali[*it];
         }
 
         else{ //creazione archi "paralleli" nel grafo liftato
@@ -111,38 +111,38 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
             unidirected_edge<LiftedNode<T>> e2(LiftedNode<T>(u, true), LiftedNode<T>(v, true)); //(u+, v+)
             G_lifted.add_edge(e1.from(), e1.to());
             G_lifted.add_edge(e2.from(), e2.to());
-            pesi_lifted[e1] = peso;
-            pesi_lifted[e2] = peso;
+            pesi_lifted[e1] = pesi_originali[*it];
+            pesi_lifted[e2] = pesi_originali[*it];
         }
     }
 
     //best_C è il ciclo minimo
     int best_len = -1;
-    std::vector<int> best_C(m, 0);  //m= numero di elementi del vettore (corrisponde al numero totale di archi nel grafo originale), inizialmente tutti inizializzati a 0
-    std::vector<unidirected_edge<T>> best_archi;
+    std::vector<int> best_C(m, 0);  //m = numero di elementi del vettore (corrisponde al numero totale di archi nel grafo originale), inizialmente tutti inizializzati a 0)
+    std::vector<unidirected_edge<T>> best_archi;    //corrisponde a ciclo_archi_out ma per il ciclo minimo "best_C", per tenere conto del verso di percorrenza
 
     for(auto it= nodi_originali.begin(); it!= nodi_originali.end(); ++it){ //cerco il miglior cammino tra v- e v+
         T v = *it;
-        LiftedNode<T> sorgente(v, false); //v-
-        LiftedNode<T> destinazione(v, true); //v+
+        LiftedNode<T> sorgente(v, false); //=v-
+        LiftedNode<T> destinazione(v, true); //=v+
     
         std::map<LiftedNode<T>, double> dist;
-        std::map<LiftedNode<T>, LiftedNode<T>> pred= Dijkstra(G_lifted, sorgente, pesi_lifted, dist);
+        std::map<LiftedNode<T>, LiftedNode<T>> pred = Dijkstra(G_lifted, sorgente, pesi_lifted, dist);    //crea la mappa dei predecessori per i percorsi minimi a partire dal nodo source (SSSP: single source shortest path)
 
-        if(dist.find(destinazione) == dist.end()){ //se v+ non è raggiungibile da v-
+        if(dist.find(destinazione) == dist.end()){ //ossia se v+ non è raggiungibile da v-
             continue; //si passa all'iterazione successiva del ciclo for (saltando il resto del corpo)
         }
 
         double len = dist[destinazione];
-        if(best_len != -1 && len >= best_len){
+        if(best_len != -1 && len >= best_len){    //controllo best_len diverso da -1 per assicurarci di non essere alla prima iterazione del ciclo for sui nodi
             continue; //se len non è migliore salta il resto, non è il ciclo minimo
         }
 
-        std::vector<LiftedNode<T>> cammino;  //un vettore è ordinato per ordine di inserimento, sarà [dest, ..., sorg]
-        LiftedNode<T> corrente = destinazione;
-        while(!(corrente.getVertice() == sorgente.getVertice() && corrente.getSegno() == sorgente.getSegno())){//il while si ferma quando il nodo corrente è lo stesso nodo della sorgente e ha lo stesso segno della sorgente (quindi quando raggiunge esattamente la dorgente)
-            cammino.push_back(corrente); //aggiungo al cammino il nodo corrente
-            corrente = pred[corrente]; //predecessore
+        std::vector<LiftedNode<T>> cammino;  //un vettore è ordinato per ordine di inserimento, sarà [destinazione, ..., sorgente]
+        LiftedNode<T> attuale = destinazione;
+        while(!(attuale.getVertice() == sorgente.getVertice() && attuale.getSegno() == sorgente.getSegno())){//il while si ferma quando il nodo corrente è lo stesso nodo della sorgente e ha lo stesso segno della sorgente (quindi quando raggiunge esattamente la sorgente, che è l'unico nodo ad avere la proprietà di essere associato a se stesso nella mappa "pred")
+            cammino.push_back(attuale); //aggiungo al cammino il nodo attuale
+            attuale = pred[attuale]; //prendiamo il predecessore del nodo attuale per risalire di 1 passo la mappa dei predecessori
         }
 
         cammino.push_back(sorgente); //aggiungo la sorgente
