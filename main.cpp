@@ -71,7 +71,7 @@ int main(){
     int n = maglie.size(); //numero di cicli trovati
     Eigen::MatrixXd R = Eigen::MatrixXd::Zero(m, m); //creazione della matrice diagonale R che ha per elementi sulla diagonale le resistenze
     Eigen::VectorXd v = Eigen::VectorXd::Zero(n); //creazione del vettore dei termini noti
-    Eigen::MatrixXd B = Eigen::MatrixXd::Zero(m, n); //matrice di incidenza (resistori maglie)
+    Eigen::MatrixXd B = Eigen::MatrixXd::Zero(m, n); //matrice di incidenza (con dimensione = #resistori x #maglie)
     matrici(R, v, B, maglie, Res, Vol);
     
     Eigen::VectorXd Ir = Eigen::VectorXd::Zero(Res.size());
