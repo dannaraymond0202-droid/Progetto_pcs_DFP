@@ -165,7 +165,7 @@ void trova_ciclo_minimo(const unidirected_graph<T>& G, const std::vector<int>& S
         }
         
         if(ps_mod2(C, S) == 1){  //controlla che il prodotto scalare tra C ed S sia 1 significa che abbiamo trovato un nuovo ciclo minimo!
-            best_len.swap(len);
+            best_len = len;
             best_C.swap(C); // best_C = C ma evita copie
             best_archi.swap(archi_ciclo);
         }
@@ -181,7 +181,7 @@ template<typename T>
 std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>& G){
     lifo<T> pila;
     std::map<unidirected_edge<T>, double> pesi; //dichiarazione
-    for(auto& e : G.all_edge()) pesi[e] = 1.0;    //inizializzazione di tutti i pesi a 1 per default
+    for(auto& e : G.all_edges()) pesi[e] = 1.0;    //inizializzazione di tutti i pesi a 1 per default
     T sorgente = *(G.all_nodes().begin());
     unidirected_graph<T> albero = graph_visit(G, sorgente, pila);
     unidirected_graph<T> coalbero = G - albero;
@@ -201,7 +201,7 @@ std::vector<std::vector<unidirected_edge<T>>> De_Pina(const unidirected_graph<T>
         if(indice >= 0){  //se il back_edge nel grafo originale viene trovato
             S_i[indice] = 1;    //allora S_i avrà un elemento pari a 1 nella posizione ocrrispondente all'indice del back edge nel grafo originario
         }
-        S_tot.push_back(S);    //aggiungiamo al vettore di vettori il nostro S_i
+        S_tot.push_back(S_i);    //aggiungiamo al vettore di vettori il nostro S_i
     }
 
     //costruisco la base di cicli
