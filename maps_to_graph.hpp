@@ -12,6 +12,7 @@ unidirected_graph<int> circuit_graph_generator(map<int, array<double, 3>>& Res, 
   for(auto& [n,info] : Vol){
     G.add_edge(info.at(1), info.at(2));
   }
-       //in Unidirect_edges.hpp abbiamo aggiunto un membro privato booleano per verificare la direzione del componente  
-  return G;
+         
+  return G;  /*in unidirect_edges.hpp abbiamo aggiunto un membro privato booleano per memorizzare se la direzione del componente
+              è stata invertita o meno nella dichiarazione dell'arco, informazione poi necessaria in De Pina e per la matrice d'incidenza*/
 }
