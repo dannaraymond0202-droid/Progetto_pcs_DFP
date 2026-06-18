@@ -31,8 +31,8 @@ public:
     void add_edge(T a, T b) { //aggiunge un arco al grafo, i nodi vengono aggiunti implicitamente
         unidirected_edge<T> e(a,b);
 
-        auto i = find(all_edges.begin(), all_edges.end(), e);
-        if(i != all_edges.end()) edges.push_back(e); //se non l'ho trovato lo aggiungo alla fine della lista
+        auto i = find(all_edges().begin(), all_edges().end(), e);
+        if(i != all_edges().end()) edges.push_back(e); //se non l'ho trovato lo aggiungo alla fine della lista
 
         //aggiorno la lista di adiacenza
         adj[e.from()].insert(e.to()); //aggiungo "b" alla lista di vicini di "a"
