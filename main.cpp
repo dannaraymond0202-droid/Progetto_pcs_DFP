@@ -91,7 +91,7 @@ int main(){
         
   }
     else if(bin == 0){ //Caso Lettura File
-        string filename = "circuito.txt";    //percorso file omesso poiché il file di input è gia collocato nella cartella build del progetto  
+        string filename = "Netlist.txt";    //percorso file omesso poiché il file di input è gia collocato nella cartella build del progetto  
         ifstream ifs(filename);
         if (ifs.is_open()){    //selezione di check dell'apertura per evitare errori 
             while(!ifs.eof()){    //fino a quando non arriva alla fine del file fa ....
