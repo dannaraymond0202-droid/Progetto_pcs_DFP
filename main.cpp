@@ -20,39 +20,110 @@ using namespace std;
 int main(){
     //Lettura File
     map<int, array<double, 3>> Res, Vol;
-    string filename = "circuito.txt";    //percorso file omesso poiché il file di input è gia collocato nella cartella build del progetto
-    int re = 1;    //contatori per inserire i valori relativi a ogni componente nella giusta posizione delle mappe Res e Vol
-    int vo = 1;
-    ifstream ifs(filename);
-    if (ifs.is_open()){    //selezione di check dell'apertura per evitare errori 
-      while(!ifs.eof()){    //fino a quando non arriva alla fine del file fa ....
-        string codice_componente;    //R oppure V e il numero sequenziale associato
-        array<double,3> valori;
-        ifs >> codice_componente;
-        unordered_set<char> caratteri_codice_componente;
-        for(int i = 0; i<codice_componente.size(); i++){
-          caratteri_codice_componente.insert(codice_componente[i]);    //conversione necessaria a controllare se il carattere R oppure V sono presenti
-        }
-        if(caratteri_codice_componente.contains('R')){ //inizializzazione delle due mappe Res e Vol
-          caratteri_codice_componente.clear();
-          ifs >> valori[0];    //valore in ohm
-          ifs >> valori[1];    //nodo di partenza
-          ifs >> valori[2];    //nodo di arrivo
-          Res[re] = valori;
-          re++;
-        }
-        else if(caratteri_codice_componente.contains('V')){
-          caratteri_codice_componente.clear();
-          ifs >> valori[0];    //valore in volt
-          ifs >> valori[1];    //nodo di partenza
-          ifs >> valori[2];    //nodo di arrivo
-          Vol[vo] = valori;
-          vo++;
-        }
-      }
+    int re = 0;   //contatori per inserire i valori relativi a ogni componente nella giusta posizione delle mappe Res e Vol
+    int vo = 0;
+    char input;
+    int bin;
+    array<double, 3> valori;
+    cout << "\n Si digiti 0 si ha una netlist.txt nella cartella build \n o 1 se la si vuole creare: \n";
+    while(!(cin >> bin)){
+        cout<< "Per favore inserire 0 o 1: \n";
+        cin.clear();
+        string sbagliato;
+        getline(cin, sbagliato);   
     }
-    
-    
+    if (bin == 1){ //Caso Creazione dal terminale 
+        cout << "Digitare R o V per inserire una resistenza o un generatore di potenziale nella netlist \n";
+        do{
+            while(!(cin >> input) && input != 'R' && input != 'V' && input != 'B'){
+              }
+            if(input == 'R'){
+                re ++; //itero per poter identificare ogni componente
+                cout << "Inserire il valore della resistenza in Ohm: \n";
+                while(!(cin >> valori[0])){ //https://en.cppreference.com/cpp/io/basic_ios/clear
+                    cout<< "Per favore inserire un valore corretto: \n";
+                    cin.clear();
+                    string sbagliato;
+                    getline(cin, sbagliato); //insieme ad clear getline è essenziale per gestire valori inattesi ripristinando cin  senza dare un ciclo infinito. 
+                    }
+                cout<<"Inserire primo nodo: \n"; 
+                while(!(cin >> valori[1])){ 
+                    cout<< "Per favore inserire un valore corretto: \n";
+                    cin.clear();
+                    string sbagliato;
+                    getline(cin, sbagliato);   
+                }
+                cout<<"Inserire secondo nodo: \n";
+                while(!(cin >> valori[2])){
+                    cout<< "Per favore inserire un valore corretto: \n";
+                    cin.clear();
+                    string sbagliato;
+                    getline(cin, sbagliato);   
+                }         
+                Res[re] = valori;
+          }
+          else if(input == 'V'){  
+                vo ++; //itero per poter identificare ogni componente
+                cout << "Inserire il valore del generatore di potenziale in Volt: \n";
+                while(!(cin >> valori[0])){
+                     cout<< "Per favore inserire un valore corretto: \n";
+                     cin.clear();
+                     string sbagliato;
+                     getline(cin, sbagliato); //essenziale per gestire valori inattesi cancellando cin  
+                }
+                cout<<"Inserire primo nodo: \n";
+                while(!(cin >> valori[1])){ 
+                    cout<< "Per favore inserire un valore corretto: \n";
+                    cin.clear();
+                    string sbagliato;
+                    getline(cin, sbagliato);   
+                }
+                cout<<"Inserire Secondo nodo: \n";
+                while(!(cin >> valori[2])){
+                    cout<< "Per favore inserire un valore corretto: \n";
+                    cin.clear();
+                    string sbagliato;
+                    getline(cin, sbagliato);   
+                }         
+                Vol[vo] = valori; 
+            }
+      }while(cout<<"Inserisci B per terminale l'inserimento o R e V per continuare \n" && input != 'B');
+        
+  }
+    else if(bin == 0){ //Caso Lettura File
+        string filename = "circuito.txt";    //percorso file omesso poiché il file di input è gia collocato nella cartella build del progetto  
+        ifstream ifs(filename);
+        if (ifs.is_open()){    //selezione di check dell'apertura per evitare errori 
+            while(!ifs.eof()){    //fino a quando non arriva alla fine del file fa ....
+                string codice_componente;    //R oppure V e il numero sequenziale associato
+                array<double,3> valori;
+                ifs >> codice_componente;
+                unordered_set<char> caratteri_codice_componente;
+                for(int i = 0; i<codice_componente.size(); i++){
+                  caratteri_codice_componente.insert(codice_componente[i]);    //conversione necessaria a controllare se il carattere R oppure V sono presenti
+                }
+                if(caratteri_codice_componente.contains('R')){ //inizializzazione delle due mappe Res e Vol
+                    caratteri_codice_componente.clear();
+                    re++;
+                    ifs >> valori[0];    //valore in ohm
+                    ifs >> valori[1];    //nodo di partenza
+                    ifs >> valori[2];    //nodo di arrivo
+                    Res[re] = valori;
+          
+                }
+                else if(caratteri_codice_componente.contains('V')){
+                    caratteri_codice_componente.clear();
+                    vo++;
+                    ifs >> valori[0];    //valore in volt
+                    ifs >> valori[1];    //nodo di partenza
+                    ifs >> valori[2];    //nodo di arrivo
+                    Vol[vo] = valori;
+
+                }    
+            }
+        }
+    }
+  //Fine input
     
     auto G = circuit_graph_generator(Res, Vol);
     
