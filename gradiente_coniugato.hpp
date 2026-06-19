@@ -7,7 +7,7 @@ Eigen::VectorXd   gradiente_coniugato(Eigen::MatrixXd& A, Eigen::VectorXd& b, Ei
     float n  = std::sqrt(A.size());  // faccio la radice perché il comado .size() in una matrice ritorna 9 = 3*3 se n = 3;
     int k = 0;
     Eigen::VectorXd x; // definisco x come vettore soluzione
-    std::cout<<"Numero di iterazioni compiute dal metodo del gradiente: " ;
+   
     while (k<10*n && r0.norm()>tol){
         double alpha_k = ((p0.transpose()*r0) / (p0.transpose()*A *p0)).value(); //definisco ad ogni iterazione alpha_k
         x = x0 + alpha_k*p0;

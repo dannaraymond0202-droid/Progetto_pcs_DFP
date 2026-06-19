@@ -1,0 +1,3 @@
+/home/pcsdocker/Data/Progetto_pcs_DFP/build/CMakeFiles/RUN.dir
+/home/pcsdocker/Data/Progetto_pcs_DFP/build/CMakeFiles/edit_cache.dir
+/home/pcsdocker/Data/Progetto_pcs_DFP/build/CMakeFiles/rebuild_cache.dir

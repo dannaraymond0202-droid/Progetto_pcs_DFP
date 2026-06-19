@@ -2,8 +2,9 @@
 #include <fstream>
 #include <map>
 #include <array>
-#include <unordered_set>
 #include <vector>
+#include <string>
+#include <unordered_set>
 #include <Eigen/Dense>
 #include "cicli_dfs.hpp"
 #include "de_pina.hpp"
@@ -26,18 +27,25 @@ int main(){
     int bin;
     array<double, 3> valori;
     cout << "\n Si digiti 0 si ha una netlist.txt nella cartella build \n o 1 se la si vuole creare: \n";
-    while(!(cin >> bin)){
+    while(!(cin >> bin) || (bin != 0 && bin != 1)){
         cout<< "Per favore inserire 0 o 1: \n";
         cin.clear();
         string sbagliato;
         getline(cin, sbagliato);   
     }
+
     if (bin == 1){ //Caso Creazione dal terminale 
         cout << "Digitare R o V per inserire una resistenza o un generatore di potenziale nella netlist \n";
         do{
-            while(!(cin >> input) && input != 'R' && input != 'V' && input != 'B'){
-              }
-            if(input == 'R'){
+            while(!(cin >> input)){
+                cin.clear();
+                string sbagliato;
+                getline(cin, sbagliato); 
+            }
+            
+            if(input == 'B') break;
+
+            else if(input == 'R'){
                 re ++; //itero per poter identificare ogni componente
                 cout << "Inserire il valore della resistenza in Ohm: \n";
                 while(!(cin >> valori[0])){ //https://en.cppreference.com/cpp/io/basic_ios/clear
@@ -61,8 +69,8 @@ int main(){
                     getline(cin, sbagliato);   
                 }         
                 Res[re] = valori;
-          }
-          else if(input == 'V'){  
+            }
+            else if(input == 'V'){  
                 vo ++; //itero per poter identificare ogni componente
                 cout << "Inserire il valore del generatore di potenziale in Volt: \n";
                 while(!(cin >> valori[0])){
@@ -86,10 +94,13 @@ int main(){
                     getline(cin, sbagliato);   
                 }         
                 Vol[vo] = valori; 
-            }
-      }while(cout<<"Inserisci B per terminale l'inserimento o R e V per continuare \n" && input != 'B');
-        
-  }
+            }        
+            
+            cout<<"Inserisci B per terminale l'inserimento o R e V per continuare \n";
+            
+        }while(true);
+   
+    }
     else if(bin == 0){ //Caso Lettura File
         string filename = "Netlist.txt";    //percorso file omesso poiché il file di input è gia collocato nella cartella build del progetto  
         ifstream ifs(filename);
@@ -123,13 +134,14 @@ int main(){
             }
         }
     }
-  //Fine input
     
+
+    //Fine Input.
     auto G = circuit_graph_generator(Res, Vol);
-    
+    cout <<" Grafo generato";
     char choice;
     do{
-      cout << "digitare 1 se si desidera trovare i cicli fondamentali (maglie) attraverso il metodo basato sull'algoritmo DFS oppure 2 per il metodo di De Pina:\n";
+      cout << "digitare 1 se si desidera trovare i cicli fondamentali (maglie) attraverso il metodo basato sull'algoritmo DFS oppure 2 per il metodo di De Pina:"<<" \n";
       cin >> choice;
     }while(choice != '1' && choice != '2');// il do while esegue almeno una volta il corpo e poi continua fino a che il carattere non è tra quelli previsti
     
@@ -148,10 +160,11 @@ int main(){
     Eigen::VectorXd Ir = Eigen::VectorXd::Zero(Res.size());
     const double tol =  1.0e-15;
     Eigen::MatrixXd Risultato = Calcolo(B,R,v,tol); //matrice in cui nella prima colonna ci sono le Vr e nella seconda le Ir (numero di righe = numero di resistenze)
-
+    cout << "Risultato:\n";
     for(auto& [num, info] : Res){
         cout << "R" << num << ": V = " << Risultato(num-1,0) << " volts, I = " << Risultato(num-1,1) << " amps.\n";
     }
-    
+
+    cout << "Nota: l'ordine dell'output è lo stesso dell'ordine di inserimento \n";
     return 0;
 }

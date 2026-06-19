@@ -4,6 +4,7 @@
 #include<list>
 #include<algorithm>    //aggiunto per la funzione find
 #include"unidirected_edges.hpp"
+#include <iostream>
 
 template <typename T>
 class unidirected_graph {
@@ -30,13 +31,12 @@ public:
 
     void add_edge(T a, T b) { //aggiunge un arco al grafo, i nodi vengono aggiunti implicitamente
         unidirected_edge<T> e(a,b);
-
-        auto i = find(all_edges().begin(), all_edges().end(), e);
-        if(i != all_edges().end()) edges.push_back(e); //se non l'ho trovato lo aggiungo alla fine della lista
-
+        
+        auto i = find(edges.begin(), edges.end(), e);
+        if(i == edges.end()) edges.push_back(e); //se non l'ho trovato lo aggiungo alla fine della lista
         //aggiorno la lista di adiacenza
         adj[e.from()].insert(e.to()); //aggiungo "b" alla lista di vicini di "a"
-        adj[e.to()].insert(e.from()); //aggiungo "a" alla lista di vicini di "b"
+        adj[e.to()].insert(e.from()); //aggiungo "a" alla lista di vicini di "b
     }
 
 
