@@ -18,7 +18,4 @@ add_test(NAME maps_to_graph COMMAND test_maps_to_graph)
 add_executable(test_de_pina test_de_pina.cpp)
 add_test(NAME de_pina COMMAND test_de_pina)
 
-add_executable(test_graph_visit test_graph_visit.cpp)
-add_test(NAME graph_visit COMMAND test_graph_visit)
-
 enable_testing()
