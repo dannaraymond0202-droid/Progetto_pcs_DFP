@@ -26,7 +26,7 @@ int main(){
     char input;
     int bin;
     array<double, 3> valori;
-    cout << "\n Si digiti 0 si ha una netlist.txt nella cartella build \n o 1 se la si vuole creare: \n";
+    cout << "\n Si digiti 0 se si ha una netlist.txt nella cartella build \no 1 se la si vuole creare:\n";
     while(!(cin >> bin) || (bin != 0 && bin != 1)){
         cout<< "Per favore inserire 0 o 1: \n";
         cin.clear();
@@ -35,35 +35,33 @@ int main(){
     }
 
     if (bin == 1){ //Caso Creazione dal terminale 
-        cout << "Digitare R o V per inserire una resistenza o un generatore di potenziale nella netlist \n";
+        cout << "Digitare R per inserire una resistenza o V per un generatore di tensione nella netlist:\n";
         do{
             while(!(cin >> input)){
                 cin.clear();
                 string sbagliato;
                 getline(cin, sbagliato); 
             }
-            
-            if(input == 'B') break;
 
             else if(input == 'R'){
-                re ++; //itero per poter identificare ogni componente
+                re ++; //itero per poter indicizzare correttamente ogni componente in Res
                 cout << "Inserire il valore della resistenza in Ohm: \n";
-                while(!(cin >> valori[0])){ //https://en.cppreference.com/cpp/io/basic_ios/clear
-                    cout<< "Per favore inserire un valore corretto: \n";
+                while(!(cin >> valori[0])){ // https://en.cppreference.com/cpp/io/basic_ios/clear
+                    cout<< "Per favore inserire un valore corretto:\n";
                     cin.clear();
                     string sbagliato;
-                    getline(cin, sbagliato); //insieme ad clear getline è essenziale per gestire valori inattesi ripristinando cin  senza dare un ciclo infinito. 
+                    getline(cin, sbagliato); //insieme a clear, getline è essenziale per gestire valori inattesi ripristinando cin senza portare ad un ciclo infinito. 
                     }
                 cout<<"Inserire primo nodo: \n"; 
                 while(!(cin >> valori[1])){ 
-                    cout<< "Per favore inserire un valore corretto: \n";
+                    cout<< "Per favore inserire un valore corretto:\n";
                     cin.clear();
                     string sbagliato;
                     getline(cin, sbagliato);   
                 }
                 cout<<"Inserire secondo nodo: \n";
                 while(!(cin >> valori[2])){
-                    cout<< "Per favore inserire un valore corretto: \n";
+                    cout<< "Per favore inserire un valore corretto:\n";
                     cin.clear();
                     string sbagliato;
                     getline(cin, sbagliato);   
@@ -71,24 +69,24 @@ int main(){
                 Res[re] = valori;
             }
             else if(input == 'V'){  
-                vo ++; //itero per poter identificare ogni componente
-                cout << "Inserire il valore del generatore di potenziale in Volt: \n";
+                vo ++; //itero per poter indicizzare correttamente ogni componente in Vol
+                cout << "Inserire il valore del generatore di tensione in Volt: \n";
                 while(!(cin >> valori[0])){
-                     cout<< "Per favore inserire un valore corretto: \n";
+                     cout<< "Per favore inserire un valore corretto:\n";
                      cin.clear();
                      string sbagliato;
                      getline(cin, sbagliato); //essenziale per gestire valori inattesi cancellando cin  
                 }
                 cout<<"Inserire primo nodo: \n";
                 while(!(cin >> valori[1])){ 
-                    cout<< "Per favore inserire un valore corretto: \n";
+                    cout<< "Per favore inserire un valore corretto:\n";
                     cin.clear();
                     string sbagliato;
                     getline(cin, sbagliato);   
                 }
-                cout<<"Inserire Secondo nodo: \n";
+                cout<<"Inserire Secondo nodo:\n";
                 while(!(cin >> valori[2])){
-                    cout<< "Per favore inserire un valore corretto: \n";
+                    cout<< "Per favore inserire un valore corretto:\n";
                     cin.clear();
                     string sbagliato;
                     getline(cin, sbagliato);   
@@ -96,9 +94,9 @@ int main(){
                 Vol[vo] = valori; 
             }        
             
-            cout<<"Inserisci B per terminale l'inserimento o R e V per continuare \n";
+            cout<<"Inserisci B per terminare l'inserimento oppure R o V per continuare:\n";
             
-        }while(true);
+        }while(input != 'B');
    
     }
     else if(bin == 0){ //Caso Lettura File
