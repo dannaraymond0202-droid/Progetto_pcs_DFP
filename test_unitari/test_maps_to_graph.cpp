@@ -28,7 +28,7 @@ int main() {
 
     unidirected_edge<int> e2(3,4);
     if(G.edge_number(e2) == -1){ return EXIT_FAILURE;}
-    int i2 = G.edge_number(e1);
+    int i2 = G.edge_number(e2);
     unidirected_edge<int> e_g2 = G.edge_at(i2);
     if(e2.is_inv() != e_g2.is_inv()){ return EXIT_FAILURE;}
 
