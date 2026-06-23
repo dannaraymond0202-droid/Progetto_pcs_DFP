@@ -15,4 +15,7 @@ add_test(NAME cicli_dfs COMMAND test_cicli_dfs)
 add_executable(test_maps_to_graph test_maps_to_graph.cpp)
 add_test(NAME maps_to_graph COMMAND test_maps_to_graph)
 
+add_executable(test_de_pina test_de_pina.cpp)
+add_test(NAME de_pina COMMAND test_de_pina)
+
 enable_testing()
