@@ -1,0 +1,4 @@
+/home/pcsdocker/Data/Progetto_pcs_DFP/test_unitari/build/CMakeFiles/test_cicli_dfs.dir
+/home/pcsdocker/Data/Progetto_pcs_DFP/test_unitari/build/CMakeFiles/test.dir
+/home/pcsdocker/Data/Progetto_pcs_DFP/test_unitari/build/CMakeFiles/edit_cache.dir
+/home/pcsdocker/Data/Progetto_pcs_DFP/test_unitari/build/CMakeFiles/rebuild_cache.dir

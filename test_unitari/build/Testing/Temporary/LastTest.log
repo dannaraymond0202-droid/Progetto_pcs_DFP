@@ -1,0 +1,18 @@
+Start testing: Jun 23 17:04 UTC
+----------------------------------------------------------
+1/1 Testing: cicli_dfs
+1/1 Test: cicli_dfs
+Command: "/home/pcsdocker/Data/Progetto_pcs_DFP/test_unitari/build/test_cicli_dfs"
+Directory: /home/pcsdocker/Data/Progetto_pcs_DFP/test_unitari/build
+"cicli_dfs" start time: Jun 23 17:04 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"cicli_dfs" end time: Jun 23 17:04 UTC
+"cicli_dfs" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jun 23 17:04 UTC

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wshadow -Werror=vla -Wl,--dependency-file=CMakeFiles/test_cicli_dfs.dir/link.d CMakeFiles/test_cicli_dfs.dir/test_cicli_dfs.cpp.o -o test_cicli_dfs
