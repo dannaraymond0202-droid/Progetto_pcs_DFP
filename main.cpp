@@ -25,7 +25,6 @@ int main(){
     int vo = 0;
     char input;
     int bin;
-    array<double, 3> valori;
     cout << "\n Si digiti 0 se si ha una netlist.txt nella cartella build \no 1 se la si vuole creare:\n";
     while(!(cin >> bin) || (bin != 0 && bin != 1)){
         cout<< "Per favore inserire 0 o 1: \n";
@@ -42,8 +41,8 @@ int main(){
                 string sbagliato;
                 getline(cin, sbagliato); 
             }
-
-            else if(input == 'R'){
+            array<double, 3> valori;
+            if(input == 'R'){
                 re ++; //itero per poter indicizzare correttamente ogni componente in Res
                 cout << "Inserire il valore della resistenza in Ohm: \n";
                 while(!(cin >> valori[0])){ // https://en.cppreference.com/cpp/io/basic_ios/clear
