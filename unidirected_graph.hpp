@@ -1,15 +1,16 @@
 #pragma once //serve per non avere errori di ridefinizione della classe quando la chiamiamo più volte
-#include<iostream>
 #include<map>
 #include<set>
 #include<list>
-#include"unidirected_edge.hpp"
+#include<algorithm>    //aggiunto per la funzione find
+#include"unidirected_edges.hpp"
+#include <iostream>
 
 template <typename T>
 class unidirected_graph {
 private:
     std::map<T, std::set<T>> adj;  //crea una mappa (un dizionario) la cui chiave è un nodo e il valore un insieme (quello dei suoi vicini)
-    std::set<unidirected_edge<T>> edges; //lista di tutti gli archi in ordine di inserimento
+    std::list<unidirected_edge<T>> edges; //lista di tutti gli archi in ordine di inserimento
 
 public:
 
@@ -30,16 +31,16 @@ public:
 
     void add_edge(T a, T b) { //aggiunge un arco al grafo, i nodi vengono aggiunti implicitamente
         unidirected_edge<T> e(a,b);
-
-        edges.insert(e); //se non l'ho trovato lo aggiungo alla fine della lista
-
+        
+        auto i = find(edges.begin(), edges.end(), e);
+        if(i == edges.end()) edges.push_back(e); //se non l'ho trovato lo aggiungo alla fine della lista
         //aggiorno la lista di adiacenza
         adj[e.from()].insert(e.to()); //aggiungo "b" alla lista di vicini di "a"
-        adj[e.to()].insert(e.from()); //aggiungo "a" alla lista di vicini di "b"
+        adj[e.to()].insert(e.from()); //aggiungo "a" alla lista di vicini di "b
     }
 
 
-    std::set<unidirected_edge<T>> all_edges() const { //restituisce la lista di tutti gli archi
+    std::list<unidirected_edge<T>> all_edges() const { //restituisce la lista di tutti gli archi
         return edges; //fa una copia della lista di archi
     }
 
@@ -65,7 +66,6 @@ public:
     unidirected_edge<T> edge_at(int i) const { //dato un indice restituisce il corrispondente arco
         //verifichiamo che l'indice non sia negativo
         if(i<0) {
-            std::cout<<"Errore: indice negativo in edge_at"<<"\n";
             return edges.front(); //mi restituisce il primo arco anche se non corrisponderebbe a niente perché deve restituire un arco
         }
 
@@ -74,7 +74,6 @@ public:
             if(pos == i) return *it;
             ++pos;
         }
-        std::cout<< "Errore: indice out of range"<<"\n";
         return edges.back(); //mi restituisce l'ultimo arco anche se non corrisponderebbe a niente perché deve restituire un arco
     }
 

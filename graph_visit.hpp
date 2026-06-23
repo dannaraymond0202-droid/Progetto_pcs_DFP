@@ -1,11 +1,12 @@
-#pragma once //per evitare errori di ridefinizione 
+#pragma once
+//per evitare errori di ridefinizione 
 #include<unordered_map>
 #include<map>
 #include<queue>
 #include<vector>
 #include"fifo.hpp"
 #include"lifo.hpp"
-#include"unidirected_edge.hpp"
+#include"unidirected_edges.hpp"
 #include"unidirected_graph.hpp"
 //Dijkstra modificata per esercitazione 11
 //l'ordine di visita è l'ordine con cui tolgo gli elementi dal contenitore
@@ -20,7 +21,7 @@ unidirected_graph<T> graph_visit(const unidirected_graph<T>& G, const T& sorgent
     }
 
     c.put(sorgente);  //inserisco il nodo sorgente in fondo alla coda o in cima alla pila
-    reached[sorgente] = true; //assegno nella mappa al nodo sorgente il valore di true
+    reached[sorgente] = true; //assegno nella mappa dei nodi trovati al nodo sorgente il valore di true
 
     while(!c.empty()){
         T u = c.get(); //prendo il primo elemento della coda o della pila
@@ -39,22 +40,22 @@ unidirected_graph<T> graph_visit(const unidirected_graph<T>& G, const T& sorgent
 }
 
 template<typename T>
-void dfs_visita(const unidirected_graph<T>& G, const T& u, std::unordered_map<T, bool>& reached, unidirected_graph<T>& albero){  //DFS parte ricorsiva
-    reached[u] = true;
+void dfs_visita(const unidirected_graph<T>& G, const T& u, std::unordered_map<T, bool>& reached, unidirected_graph<T>& albero){  //funzione di suporto per la parte ricorsiva della DFS
+    reached[u] = true;    //assegno nella mappa dei nodi trovati al nodo sorgente il valore di true
         for(auto& v : G.neighbours(u)){ 
-            if(!reached[v]){ 
+            if(!reached[v]){    //se questo vicino di u non è ancora stato visitato...
                 albero.add_edge(u, v); //aggiunge arco all'albero di visita
-                dfs_visita(G, v, reached, albero);
+                dfs_visita(G, v, reached, albero);    //e richiama un'istanza di se stessa sul nuovo nodo sorgente, vicino del precedente nodo sorgente
             }
         }
 }
 
 template<typename T>
-unidirected_graph<T> recursive_dfs(const unidirected_graph<T>& G, const T& sorgente){  
+unidirected_graph<T> recursive_dfs(const unidirected_graph<T>& G, const T& sorgente){    //funzione che chiama l'utente, dato che richiede in input solo grafo e nodo sorgente
     unidirected_graph<T> albero;
     std::unordered_map<T, bool> reached;
     for (auto& nodo : G.all_nodes()) {
-        reached[nodo] = false;
+        reached[nodo] = false;    //tutti i nodi sono inizialmente non raggiunti
     }
 
     dfs_visita(G, sorgente, reached, albero);

@@ -1,12 +1,14 @@
 #pragma once //serve per non avere errori di ridefinizione della classe quando la chiamiamo più volte
 #include<iostream> //serve per ostream (che serve per stampare tutti i tipi di output)
+using namespace std; //per evitare di dover ripetere std::
 
 template <typename T>
 class unidirected_edge {
 private:
     T u;
     T v;
-    bool inverted;    //necessario per segnalare quando un generatore di tensione ha polarità opposta al verso canonino nodo minore --> nodo maggiore
+    bool inverted;    //necessario per segnalare quando un generatore di tensione ha polarità opposta al verso canonico nodo minore --> nodo maggiore 
+                      //o per il verso di percorrenza delle maglie (immagazzina l'informazione del verso originale di percorrenza)
 
 public:
     unidirected_edge(T a, T b) { //costruttore che garantisce che il nodo u sia minore del nodo v
@@ -16,16 +18,16 @@ public:
         if(a<b){
             u = a;
             v = b;
-            inverted = 0;
+            inverted = 0; //0 = falso
         }
         else {
             u = b;
             v = a;
-            inverted = 1;
+            inverted = 1; //1 = vero
         }
     }
 
-    bool is_inv() { return inverted; }
+    bool is_inv() const { return inverted; } //getter per sapere se durante la costruzione l'arco è stato invertito 
 
     T from() const { //getter per leggere u
         return u;
@@ -52,10 +54,11 @@ bool operator==(const unidirected_edge& other) const { //operatore per definire 
         return false;
     }
 }
+};
 
-std::ostream& operator<<(std::ostream& os, const unidirected_edge& e) {
-    os << "(" << e.from() << "," << e.to() << ")"; 
+template <typename I>
+ostream& operator<<(ostream& os, const unidirected_edge<I>& e) //operatore per stampare un arco, fuori dalla classe perché deve essere un operatore di flusso che lavora con std::ostream& come primo operando
+{
+    os << "(" << e.from() << ")---(" << e.to() << ")";
     return os;
 }
-
-};
