@@ -2,10 +2,6 @@
 #include<fstream>
 #include<map>
 #include<list>
-#include"unidirected_edge.hpp"
-#include"unidirected_graph.hpp"
-#include"fifo.hpp"
-#include"lifo.hpp"
 #include"graph_visit.hpp"
 
 //scrive un file .dot per GraphViz
