@@ -1,4 +1,3 @@
-#include <iostream>
 #include <map>
 #include <array>
 #include <cstdlib> //per EXIT_SUCCESS EXIT_FAILURE
