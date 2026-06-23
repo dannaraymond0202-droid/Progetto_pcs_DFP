@@ -55,8 +55,8 @@ int main() {
     int i6 = G.edge_number(e6);
     unidirected_edge<int> e_g6 = G.edge_at(i6);
     if(e6.is_inv() != e_g6.is_inv()){ return EXIT_FAILURE;}
+    
 
     return EXIT_SUCCESS;
-
 
 }
