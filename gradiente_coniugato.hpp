@@ -17,7 +17,7 @@ Eigen::VectorXd   gradiente_coniugato(Eigen::MatrixXd& A, Eigen::VectorXd& b, Ei
         k = k+1;
         x0  = x;
     }
-    std::cout<< k<<"\n";
+    
     return x;
 
 }
