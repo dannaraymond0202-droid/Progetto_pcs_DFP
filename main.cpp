@@ -163,14 +163,14 @@ int main(){
     Eigen::MatrixXd B = Eigen::MatrixXd::Zero(m, n); //matrice di incidenza (con dimensione = #resistori x #maglie)
     matrici(R, v, B, maglie, Res, Vol);
     
-    Eigen::VectorXd Ir = Eigen::VectorXd::Zero(Res.size());
     const double tol =  1.0e-15;
-    Eigen::MatrixXd Risultato = Calcolo(B,R,v,tol); //matrice in cui nella prima colonna ci sono le Vr e nella seconda le Ir (numero di righe = numero di resistenze)
+    
+    Eigen::MatrixXd Risultato = Calcolo(B,R,v,tol); //matrice tale che nella prima colonna ci sono le Vr e nella seconda le Ir (numero di righe = numero di resistenze)
     cout << "Risultato:\n";
     for(auto& [num, info] : Res){
         cout << "R" << num << ": V = " << Risultato(num-1,0) << " volts, I = " << Risultato(num-1,1) << " amps.\n";
     }
 
-    cout << "Nota: l'ordine dell'output è lo stesso dell'ordine di inserimento \n";
+    cout << "\nNota: l'ordine dell'output è lo stesso dell'ordine di inserimento \n\n";
     return 0;
 }
