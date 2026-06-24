@@ -137,10 +137,10 @@ int main(){
     
 
     auto G = circuit_graph_generator(Res, Vol);
-    //Controliamo se il Grafo ha almeno un ciclo, assuamento che sia sempre connesso, grazie al numero ciclomatico k.
+    //Controliamo se il Grafo ha almeno un ciclo, assumendo che sia sempre connesso, grazie al numero ciclomatico k.
     int k = G.all_edges().size() - G.all_nodes().size() +1;
     if (k == 0) {
-        cerr<< "Il grafo generato non è ciclico quindi non la corrente è sempre 0 in tutta la netlist\n";
+        cerr<< "Il grafo generato non è ciclico quindi la corrente è sempre 0 in tutto il circuito\n";
         return 1;
     } 
 
