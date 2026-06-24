@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdlib>
-#include "cicli_dfs.hpp"
+#include "../cicli_dfs.hpp"
 
 bool cycle_contains(const std::vector<unidirected_edge<int>>& ciclo, const std::vector<std::pair<int,int>>& expected) {
     if (ciclo.size() != expected.size()) return false;
