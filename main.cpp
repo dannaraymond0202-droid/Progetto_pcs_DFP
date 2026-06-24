@@ -93,7 +93,7 @@ int main(){
                 Vol[vo] = valori; 
             }        
             
-            cout<<"Inserisci B per terminare l'inserimento oppure R o V per continuare:\n";
+            if (input != 'B') cout<<"Inserisci B per terminare l'inserimento oppure R o V per continuare:\n";
             
         }while(input != 'B');
    
@@ -131,11 +131,20 @@ int main(){
             }
         }
     }
-    
 
     //Fine Input.
+    
+    
+
     auto G = circuit_graph_generator(Res, Vol);
-    cout <<" Grafo generato";
+    //Controliamo se il Grafo ha almeno un ciclo, assuamento che sia sempre connesso, grazie al numero ciclomatico k.
+    int k = G.all_edges().size() - G.all_nodes().size() +1;
+    if (k == 0) {
+        cerr<< "Il grafo generato non è ciclico quindi non la corrente è sempre 0 in tutta la netlist\n";
+        return 1;
+    } 
+
+
     char choice;
     do{
       cout << "digitare 1 se si desidera trovare i cicli fondamentali (maglie) attraverso il metodo basato sull'algoritmo DFS oppure 2 per il metodo di De Pina:"<<" \n";
