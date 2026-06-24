@@ -4,8 +4,8 @@
 #include <array>
 #include <Eigen/Dense>
 #include <iostream>
-#include "matrici.hpp"
-#include "unidirected_edges.hpp"
+#include "../matrici.hpp"
+#include "../unidirected_edges.hpp"
 
 
 int main(){
