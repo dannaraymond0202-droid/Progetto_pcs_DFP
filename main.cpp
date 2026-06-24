@@ -24,16 +24,16 @@ int main(){
     int re = 0;   //contatori per inserire i valori relativi a ogni componente nella giusta posizione delle mappe Res e Vol
     int vo = 0;
     char input;
-    int bin;
+    char choice;
     cout << "\n Si digiti 0 se si ha una netlist.txt nella cartella build \no 1 se la si vuole creare:\n";
-    while(!(cin >> bin) || (bin != 0 && bin != 1)){
+    while(!(cin >> choice) || (choice != '0' && choice != '1')){
         cout<< "Per favore inserire 0 o 1: \n";
         cin.clear();
         string sbagliato;
         getline(cin, sbagliato);   
     }
 
-    if (bin == 1){ //Caso Creazione dal terminale 
+    if (choice == '1'){ //Caso Creazione dal terminale 
         cout << "Digitare R per inserire una resistenza o V per un generatore di tensione nella netlist:\n";
         do{
             while(!(cin >> input)){
@@ -98,7 +98,7 @@ int main(){
         }while(input != 'B');
    
     }
-    else if(bin == 0){ //Caso Lettura File
+    else if(choice == '0'){ //Caso Lettura File
         string filename = "Netlist.txt";    //percorso file omesso poiché il file di input è gia collocato nella cartella build del progetto  
         ifstream ifs(filename);
         if (ifs.is_open()){    //selezione di check dell'apertura per evitare errori 
@@ -145,15 +145,15 @@ int main(){
     } 
 
 
-    char choice;
+    
     do{
-      cout << "digitare 1 se si desidera trovare i cicli fondamentali (maglie) attraverso il metodo basato sull'algoritmo DFS oppure 2 per il metodo di De Pina:"<<" \n";
+      cout << "digitare 0 se si desidera trovare i cicli fondamentali (maglie) attraverso il metodo basato sull'algoritmo DFS oppure 1 per il metodo di De Pina:"<<" \n";
       cin >> choice;
-    }while(choice != '1' && choice != '2');// il do while esegue almeno una volta il corpo e poi continua fino a che il carattere non è tra quelli previsti
+    }while(choice != '0' && choice != '1');// il do while esegue almeno una volta il corpo e poi continua fino a che il carattere non è tra quelli previsti
     
     
     vector<vector<unidirected_edge<int>>> maglie;
-    if(choice == '1') maglie = fundamental_cycles(G);
+    if(choice == '0') maglie = fundamental_cycles(G);
     else maglie = De_Pina(G);
 
     int m = Res.size(); //numero di resistenze
