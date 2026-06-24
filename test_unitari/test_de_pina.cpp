@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include "de_pina.hpp"
+#include "../de_pina.hpp"
 
 bool cycle_contains(const std::vector<unidirected_edge<int>>& ciclo,
                     const std::vector<std::pair<int,int>>& expected) {
