@@ -2,7 +2,7 @@
 #include<fstream>
 #include<map>
 #include<list>
-#include"graph_visit.hpp"
+#include"../graph_visit.hpp"
 
 //scrive un file .dot per GraphViz
 void genera_dot(const unidirected_graph<int>& G, const std::string& filename){
