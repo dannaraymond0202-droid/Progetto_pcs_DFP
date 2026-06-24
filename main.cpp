@@ -25,7 +25,7 @@ int main(){
     int vo = 0;
     char input;
     char choice;
-    cout << "\n Si digiti 0 se si ha una netlist.txt nella cartella build \no 1 se la si vuole creare:\n";
+    cout << "\nSi digiti 0 se si ha una netlist.txt nella cartella build \no 1 se la si vuole creare:\n";
     while(!(cin >> choice) || (choice != '0' && choice != '1')){
         cout<< "Per favore inserire 0 o 1: \n";
         cin.clear();
